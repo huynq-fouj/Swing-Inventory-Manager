@@ -1,7 +1,7 @@
 package Views.Auth;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,7 +30,7 @@ public class SignUpView extends JFrame {
 	 * Create the frame.
 	 */
 	public SignUpView() {
-		setTitle("Sign Up");
+		setTitle("Sign up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(393, 243);
 		contentPane = new JPanel();
@@ -74,15 +74,14 @@ public class SignUpView extends JFrame {
 		JButton btnSignUp = new JButton("Sign up");
 		btnSignUp.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnSignUp.setBounds(167, 156, 80, 23);
-		AuthController authController = new AuthController(this);
-		btnSignUp.addActionListener(authController);
+		btnSignUp.addActionListener(e -> this.onSubmit());
 		contentPane.add(btnSignUp);
 
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnCancel.setBounds(290, 156, 77, 23);
 		btnCancel.addActionListener(e -> {
-			AuthView av = new AuthView();
+			new AuthView();
 			this.dispose();
 		});
 		contentPane.add(btnCancel);
@@ -106,5 +105,10 @@ public class SignUpView extends JFrame {
 
 	public JPasswordField getPwdConfirm() {
 		return pwdConfirm;
+	}
+	
+	public void onSubmit() {
+		AuthController authController = new AuthController();
+		authController.signUpHandler(this);
 	}
 }

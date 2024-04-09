@@ -19,16 +19,16 @@ public class DbEngine {
 	public static void saveChange(Object quanly) {
 		try {
 			String obj = quanly.getClass().getSimpleName();
-			String fileName = ResourceUtil.loadPathResource("\\Data\\");
+			String fileName = "";
 
 			if (obj.equals("QuanlyDanhMucModel")) {
-				fileName += "DanhMucDb.txt";
+				fileName = ResourceUtil.loadDataPath("DanhMucDb.txt");
 			} else {
 				if (obj.equals("QuanlySanPhamModel")) {
-					fileName += "SanPhamDb.txt";
+					fileName = ResourceUtil.loadDataPath("SanPhamDb.txt");
 				} else {
 					if (obj.equals("QuanlyTaiKhoanModel")) {
-						fileName += "TaiKhoanDb.txt";
+						fileName = ResourceUtil.loadDataPath("TaiKhoanDb.txt");
 					}
 				}
 			}
@@ -48,9 +48,9 @@ public class DbEngine {
 	// Chú ý sửa lại openData cho gọn hơn, chú ý đóng tất cả các file
 	public static Object openData(String key) {
 		try {
-			String fileName = ResourceUtil.loadPathResource("\\Data\\");
+			String fileName = "";
 			if (key.equals("QuanlyDanhMucModel")) {
-				fileName += "DanhMucDb.txt";
+				fileName = ResourceUtil.loadDataPath("DanhMucDb.txt");
 				FileInputStream fin = new FileInputStream(fileName);
 				ObjectInputStream ois = new ObjectInputStream(fin);
 				Object temp = ois.readObject();
@@ -59,7 +59,7 @@ public class DbEngine {
 				return temp;
 			}
 			if (key.equals("QuanlySanPhamModel")) {
-				fileName += "SanPhamDb.txt";
+				fileName = ResourceUtil.loadDataPath("SanPhamDb.txt");
 				FileInputStream fin = new FileInputStream(fileName);
 				ObjectInputStream ois = new ObjectInputStream(fin);
 				Object temp = ois.readObject();
@@ -68,7 +68,7 @@ public class DbEngine {
 				return temp;
 			}
 			if (key.equals("QuanlyTaiKhoanModel")) {
-				fileName += "TaiKhoanDb.txt";
+				fileName = ResourceUtil.loadDataPath("TaiKhoanDb.txt");
 				FileInputStream fin = new FileInputStream(fileName);
 				ObjectInputStream ois = new ObjectInputStream(fin);
 				Object temp = ois.readObject();

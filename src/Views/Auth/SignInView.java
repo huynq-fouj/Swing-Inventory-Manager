@@ -28,10 +28,8 @@ public class SignInView extends JFrame {
 	 */
 	public SignInView() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Log In");
+		this.setTitle("Sign In");
 		this.setSize(500, 300);
-
-		AuthController authController = new AuthController(this);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -60,7 +58,7 @@ public class SignInView extends JFrame {
 		btnSignIn = new JButton("Sign In");
 		btnSignIn.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSignIn.setBounds(204, 150, 88, 25);
-		btnSignIn.addActionListener(authController);
+		btnSignIn.addActionListener(e -> this.onSubmit());
 		contentPane.add(btnSignIn);
 
 		JButton btnCancel = new JButton("Cancel");
@@ -97,5 +95,10 @@ public class SignInView extends JFrame {
 
 	public JButton getBtnSignIn() {
 		return btnSignIn;
+	}
+	
+	public void onSubmit() {
+		AuthController authController = new AuthController();
+		authController.signInHandler(this);
 	}
 }

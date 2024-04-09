@@ -20,5 +20,13 @@ public class ResourceUtil {
 
 		return finalPath;
 	}
+	
+	public static String loadDataPath(String filename) {
+		return loadPathResource("\\data\\" + filename);
+	}
+	
+	public static String loadStaticPath(String path) {
+		return loadPathResource("\\static\\" + path);
+	}
 
 }

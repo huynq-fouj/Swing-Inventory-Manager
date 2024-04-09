@@ -1,10 +1,5 @@
 package Controllers;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JOptionPane;
-
 import Components.Dialog;
 import Models.KhoDb;
 import Models.TaiKhoan.TaiKhoan;
@@ -12,24 +7,7 @@ import Views.Auth.SignInView;
 import Views.Auth.SignUpView;
 import Views.Pages.HomePageView;
 
-public class AuthController implements ActionListener {
-	private Object view;
-
-	public AuthController(Object temp) {
-		this.view = temp;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		String url = e.getActionCommand();
-		// Đăng nhập
-		if (url.equals("Log In"))
-			this.signInHandler((SignInView) this.view);
-		// Đăng ký
-		if (url.equals("Sign Up"))
-			this.signUpHandler((SignUpView) this.view);
-	}
+public class AuthController {
 
 	public void signInHandler(SignInView siView) {
 		String username = siView.getTfUsername().getText();
