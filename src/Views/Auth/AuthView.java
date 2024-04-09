@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 
 import Components.Borders.RoundedBorder;
 import Components.Buttons.RoundButton;
+import Themes.Colors;
+import Themes.HoverEvent;
 import Utilities.ResourceUtil;
 
 import javax.swing.JButton;
@@ -42,8 +44,8 @@ public class AuthView extends JFrame {
 	
 	public JPanel createPanel() {
 		JPanel panel = new JPanel();
-		panel.setForeground(new Color(255, 255, 255));
-		panel.setBackground(new Color(255, 255, 255));
+		panel.setForeground(Colors.colorWhite);
+		panel.setBackground(Colors.colorWhite);
 		String imgPath = ResourceUtil.loadPathResource("\\ImagesResource\\mainbackground.jpg");
 		ImageIcon backgroundImageIcon = new ImageIcon(imgPath);
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,7 +62,7 @@ public class AuthView extends JFrame {
 	public JLabel labelView() {
 		JLabel label = new JLabel("Chào mừng bạn đến với phần mềm quản lý kho hàng");
 		label.setFont(new Font("Arial", Font.BOLD, 20));
-		label.setForeground(new Color(0, 0, 0));
+		label.setForeground(Colors.colorBlack);
 		label.setBounds(67, 43, 517, 23);
 		return label;
 	}
@@ -89,19 +91,11 @@ public class AuthView extends JFrame {
 	
 	public JButton BtnComponent(String label, int x, int y) {
 		JButton btn = new RoundButton(label, 15, 15);
-		btn.setForeground(new Color(255, 255, 255));
-		btn.setBackground(new Color(16, 146, 255));
+		btn.setForeground(Colors.colorWhite);
+		btn.setBackground(Colors.colorPrimary);
 		btn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btn.setBounds(x, y, 110, 40);
-		btn.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				btn.setBackground(new Color(8, 99, 190));
-            }
-
-            public void mouseExited(MouseEvent e) {
-            	btn.setBackground(new Color(16, 146, 255));
-            }
-		});
+		btn.addMouseListener(HoverEvent.changeBackground(btn, Colors.colorPrimary, Colors.colorDarkPrimary));
 		return btn;
 	}
 	

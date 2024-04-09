@@ -30,7 +30,7 @@ public class SignUpView extends JFrame {
 	 * Create the frame.
 	 */
 	public SignUpView() {
-		setTitle("Sign up");
+		setTitle("Sign Up");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(393, 243);
 		contentPane = new JPanel();

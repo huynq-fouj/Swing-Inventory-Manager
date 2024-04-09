@@ -28,7 +28,7 @@ public class SignInView extends JFrame {
 	 */
 	public SignInView() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Sign In");
+		this.setTitle("Log In");
 		this.setSize(500, 300);
 
 		AuthController authController = new AuthController(this);

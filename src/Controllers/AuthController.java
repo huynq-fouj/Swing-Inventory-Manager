@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import Components.Dialog;
 import Models.KhoDb;
 import Models.TaiKhoan.TaiKhoan;
 import Views.Auth.SignInView;
@@ -23,10 +24,10 @@ public class AuthController implements ActionListener {
 		// TODO Auto-generated method stub
 		String url = e.getActionCommand();
 		// Đăng nhập
-		if (url.equals("Sign In"))
+		if (url.equals("Log In"))
 			this.signInHandler((SignInView) this.view);
 		// Đăng ký
-		if (url.equals("Sign up"))
+		if (url.equals("Sign Up"))
 			this.signUpHandler((SignUpView) this.view);
 	}
 
@@ -40,8 +41,7 @@ public class AuthController implements ActionListener {
 			new HomePageView();
 			siView.dispose();
 		} else {
-			JOptionPane.showConfirmDialog(siView, "Tên đăng nhập hoặc mật khẩu không đúng!", "Cảnh báo",
-					JOptionPane.CLOSED_OPTION, JOptionPane.WARNING_MESSAGE);
+			Dialog.error(siView, "Sai tên đăng nhập hoặc mật khẩu!");
 		}
 	}
 
@@ -59,20 +59,16 @@ public class AuthController implements ActionListener {
 				item.setTenDangNhap(userName);
 				if (db.getLiTaiKhoan().addTaikhoan(item)) {
 					HomePageView view = new HomePageView();
-					JOptionPane.showConfirmDialog(view, "Đăng ký tài khoản thành công!", "Thông báo",
-							JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					Dialog.success(view, "Đăng ký thành công!");
 					suView.dispose();
 				} else {
-					JOptionPane.showConfirmDialog(suView, "Tên đăng nhập đã tồn tại!", "Cảnh báo",
-							JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+					Dialog.error(suView, "Tên đăng nhập đã tồn tại!");
 				}
 			} else {
-				JOptionPane.showConfirmDialog(suView, "Mật khẩu không hợp lệ!", "Cảnh báo", JOptionPane.CLOSED_OPTION,
-						JOptionPane.ERROR_MESSAGE);
+				Dialog.error(suView, "Mật khẩu không hợp lệ!");
 			}
 		} else {
-			JOptionPane.showConfirmDialog(suView, "Tên đăng nhập không hợp lệ!", "Cảnh báo", JOptionPane.CLOSED_OPTION,
-					JOptionPane.ERROR_MESSAGE);
+			Dialog.error(suView, "Tên đăng nhập không hợp lệ!");
 		}
 	}
 
