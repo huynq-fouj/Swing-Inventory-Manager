@@ -14,7 +14,7 @@ public class Button extends RoundButton {
 	private static final long serialVersionUID = 1L;
 
 	public Button(String text) {
-		super(text);
+		this(text, ButtonType.PRIMARY);
 	}
 
 	public Button(String text, ButtonType type) {

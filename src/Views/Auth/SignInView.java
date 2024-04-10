@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -85,10 +87,18 @@ public class SignInView extends JFrame {
 		JLabel label = this.createLabel("Chưa có tài khoản? ");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(label);
-		JLabel label2 = this.createLabel("Đăng ký");
-		label2.setForeground(Colors.Primary);
-		label2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(label2);
+		JLabel link = this.createLabel("Đăng ký");
+		link.setForeground(Colors.Primary);
+		link.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		SignInView signInView = this;
+		link.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				SignUpView signUpView = new SignUpView();
+				signUpView.setVisible(true);
+				signInView.dispose();
+			}
+		});
+		panel.add(link);
 		return panel;
 	}
 	

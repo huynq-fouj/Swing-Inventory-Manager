@@ -137,6 +137,7 @@ public class HomePageView extends JFrame {
 
 		btTrangchu = new JButton("Trang chủ");
 		btTrangchu.addActionListener(ac);
+		btTrangchu.setFocusPainted(false);
 		menuBar.add(btTrangchu);
 		// ---------------------------------------
 

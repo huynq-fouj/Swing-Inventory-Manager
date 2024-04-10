@@ -3,6 +3,8 @@ package Views.Auth;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -89,11 +91,18 @@ public class SignUpView extends JFrame {
 		JLabel label = this.createLabel("Đã có tài khoản? ");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel.add(label);
-		JLabel label2 = this.createLabel("Đăng nhập");
-		label2.setForeground(Colors.Primary);
-		label2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
-		panel.add(label2);
+		JLabel link = this.createLabel("Đăng nhập");
+		link.setForeground(Colors.Primary);
+		link.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		SignUpView signUpView = this;
+		link.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				SignInView signInView = new SignInView();
+				signInView.setVisible(true);
+				signUpView.dispose();
+			}
+		});
+		panel.add(link);
 		return panel;
 	}
 	
