@@ -1,6 +1,6 @@
 package Models.Objects;
 
-public class Product {
+public class ProductObject {
 	private int product_id;
 	private String product_name;
 	private int product_quantity;

@@ -1,6 +1,6 @@
 package Models.Objects;
 
-public class User {
+public class UserObject {
 
 	private int user_id;
 	private String user_name;
@@ -8,6 +8,7 @@ public class User {
 	private String user_fullname;
 	private String user_email;
 	private String user_phone;
+	private int user_logined;
 	private int user_role;
 
 	public int getUser_id() {
@@ -64,6 +65,14 @@ public class User {
 
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
+	}
+
+	public int getUser_logined() {
+		return user_logined;
+	}
+
+	public void setUser_logined(int user_logined) {
+		this.user_logined = user_logined;
 	}
 
 }

@@ -1,16 +1,16 @@
 package Shared;
 
-import Models.Objects.User;
+import Models.Objects.UserObject;
 
 public class AuthContext {
 
-	private static User user;
+	private static UserObject user;
 	
-	public static void setUser(User user) {
+	public static void setUser(UserObject user) {
 		AuthContext.user = user;
 	}
 	
-	public static User getUser() {
+	public static UserObject getUser() {
 		return AuthContext.user;
 	}
 	

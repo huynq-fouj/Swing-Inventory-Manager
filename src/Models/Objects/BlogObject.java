@@ -1,5 +1,5 @@
 package Models.Objects;
 
-public class Blog {
+public class BlogObject {
 
 }

@@ -1,6 +1,6 @@
 package Models.Objects;
 
-public class Category {
+public class CategoryObject {
 	private int category_id;
 	private String category_name;
 	private String category_notes;

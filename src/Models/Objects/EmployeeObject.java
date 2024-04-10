@@ -1,6 +1,6 @@
 package Models.Objects;
 
-public class Employee {
+public class EmployeeObject {
 
 	private int employee_id;
 	private String employee_fullname;
