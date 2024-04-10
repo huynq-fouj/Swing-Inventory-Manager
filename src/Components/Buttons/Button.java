@@ -1,0 +1,57 @@
+package Components.Buttons;
+
+import java.awt.Color;
+import java.awt.Font;
+
+import Themes.Colors;
+import Themes.HoverEvent;
+
+public class Button extends RoundButton {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Button(String text) {
+		super(text);
+	}
+
+	public Button(String text, ButtonType type) {
+		super(text);
+		this.setForeground(Colors.White);
+		this.setFont(new Font("Tahoma", Font.BOLD, 14));
+		switch (type) {
+			case PRIMARY:
+				this.setBackground(Colors.Primary);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Primary, Colors.DarkPrimary));
+				break;
+			case DANGER:
+				this.setBackground(Colors.Danger);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Danger, Colors.DarkDanger));
+				break;
+			case SUCCESS:
+				this.setBackground(Colors.Primary);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Success, Colors.DarkSuccess));
+				break;
+			case DARK:
+				this.setBackground(Colors.Dark);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Dark, Colors.DarkHover));
+				break;
+			case LIGHT:
+				this.setForeground(Colors.Black);
+				this.setBackground(Colors.White);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.White, new Color(230, 230, 230)));
+				break;
+			case WARNING:
+				this.setForeground(Colors.Black);
+				this.setBackground(Colors.Warning);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Warning, Colors.LightWarning));
+				break;
+			default:
+				this.setBackground(Colors.Primary);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Primary, Colors.DarkPrimary));
+		}
+	}
+
+}

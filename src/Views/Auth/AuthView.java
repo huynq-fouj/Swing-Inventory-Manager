@@ -6,36 +6,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Components.Borders.RoundedBorder;
-import Components.Buttons.RoundButton;
+import Components.Buttons.Button;
+import Components.Buttons.ButtonType;
 import Themes.Colors;
-import Themes.HoverEvent;
 import Utilities.ResourceUtil;
 
 import javax.swing.JButton;
-import java.awt.Color;
+
+import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 
 public class AuthView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Create the frame.
-	 */
 	public AuthView() {
-
 		this.initUI();
-		
 	}
 	
 	public void initUI() {
 		this.setTitle("Phần mềm quản lý sản phẩm");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 650, 392);
+		this.setBounds(100, 100, 650, 400);
 		this.contentPane = this.createPanel();
 		this.setContentPane(this.contentPane);
 		this.setLocationRelativeTo(null);
@@ -44,58 +40,72 @@ public class AuthView extends JFrame {
 	
 	public JPanel createPanel() {
 		JPanel panel = new JPanel();
-		panel.setForeground(Colors.colorWhite);
-		panel.setBackground(Colors.colorWhite);
-		String imgPath = ResourceUtil.loadPathResource("\\ImagesResource\\mainbackground.jpg");
-		ImageIcon backgroundImageIcon = new ImageIcon(imgPath);
+		panel.setBackground(Colors.White);
 		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panel.setLayout(null);
-		//Thêm nút đăng nhập
-		panel.add(this.BtnDangNhapComponent());
-		//Thêm nút đăng ký
-		panel.add(this.BtnDangKyComponent());
-		//Thêm label
-		panel.add(this.labelView());
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1; 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		panel.add(this.textLabel(), gbc);
+		gbc.gridy = 1;
+		panel.add(this.imgLabel(), gbc);
+		gbc.gridy = 2;
+		panel.add(this.buttonPanel(), gbc);
 		return panel;
 	}
 	
-	public JLabel labelView() {
-		JLabel label = new JLabel("Chào mừng bạn đến với phần mềm quản lý kho hàng");
+	public JPanel buttonPanel() {
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		buttonPanel.setBackground(Colors.White);
+        buttonPanel.add(this.BtnDangNhapComponent());
+        buttonPanel.add(this.BtnDangKyComponent());
+        return buttonPanel;
+	}
+	
+	public JLabel imgLabel() {
+		String imgPath = ResourceUtil.loadStaticPath("images\\analyze.png");
+		ImageIcon imageIcon = new ImageIcon(imgPath);
+		Image image = imageIcon.getImage().getScaledInstance(350, 232, Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(image);
+		JLabel imgLabel = new JLabel(imageIcon);
+		imgLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
+		return imgLabel;
+	}
+	
+	public JPanel textLabel() {
+		JLabel label = new JLabel("PHẦN MỀM QUẢN LÝ SẢN PHẨM");
 		label.setFont(new Font("Arial", Font.BOLD, 20));
-		label.setForeground(Colors.colorBlack);
-		label.setBounds(67, 43, 517, 23);
-		return label;
+		label.setForeground(Colors.Black);
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		panel.setBackground(Colors.White);
+		panel.add(label);
+		return panel;
 	}
 	
 	public JButton BtnDangNhapComponent() {
-		JButton btn = this.BtnComponent("Đăng nhập", 500, 300);
+		JButton btn = this.BtnComponent("Đăng nhập");
 		btn.addActionListener(e -> {
 			SignInView signInView = new SignInView();
 			signInView.setVisible(true);
 			this.dispose();
 		});
-		
 		return btn;
 	}
 	
 	public JButton BtnDangKyComponent() {
-		JButton btn = this.BtnComponent("Đăng ký", 359, 300);
+		JButton btn = this.BtnComponent("Đăng ký");
 		btn.addActionListener(e -> {
 			SignUpView signUpView = new SignUpView();
 			signUpView.setVisible(true);
 			this.dispose();
 		});
-		
 		return btn;
 	}
 	
-	public JButton BtnComponent(String label, int x, int y) {
-		JButton btn = new RoundButton(label, 15, 15);
-		btn.setForeground(Colors.colorWhite);
-		btn.setBackground(Colors.colorPrimary);
-		btn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btn.setBounds(x, y, 110, 40);
-		btn.addMouseListener(HoverEvent.changeBackground(btn, Colors.colorPrimary, Colors.colorDarkPrimary));
+	public JButton BtnComponent(String label) {
+		JButton btn = new Button(label, ButtonType.PRIMARY);
 		return btn;
 	}
 	

@@ -1,9 +1,10 @@
 package Views.Auth;
 
-import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,8 +13,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import Components.Borders.RoundedBorder;
+import Components.Buttons.Button;
+import Components.Buttons.ButtonType;
 import Controllers.AuthController;
-import Utilities.ResourceUtil;
+import Themes.Colors;
 
 public class SignInView extends JFrame {
 
@@ -27,62 +31,138 @@ public class SignInView extends JFrame {
 	 * Create the frame.
 	 */
 	public SignInView() {
+		
+		this.initUI();
+		
+	}
+	
+	public void initUI() {
+		this.setTitle("Đăng nhập");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Sign In");
-		this.setSize(500, 300);
-
-		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setForeground(new Color(0, 0, 0));
-		lblUsername.setFont(new Font("Arial", Font.BOLD, 14));
-		lblUsername.setBounds(50, 50, 100, 25);
-		contentPane.add(lblUsername);
-
-		tfUsername = new JTextField();
-		tfUsername.setFont(new Font("Arial", Font.PLAIN, 14));
-		tfUsername.setBounds(204, 50, 235, 25);
-		contentPane.add(tfUsername);
-		tfUsername.setColumns(10);
-
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setForeground(new Color(0, 0, 0));
-		lblPassword.setFont(new Font("Arial", Font.BOLD, 14));
-		lblPassword.setBounds(50, 100, 100, 25);
-		contentPane.add(lblPassword);
-
-		btnSignIn = new JButton("Sign In");
-		btnSignIn.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnSignIn.setBounds(204, 150, 88, 25);
-		btnSignIn.addActionListener(e -> this.onSubmit());
-		contentPane.add(btnSignIn);
-
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(e -> {
-			AuthView firstView = new AuthView();
-			firstView.setVisible(true);
-			dispose();
-		});
-		btnCancel.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCancel.setBounds(351, 150, 88, 25);
-		contentPane.add(btnCancel);
-
-		pfPassword = new JPasswordField();
-		pfPassword.setFont(new Font("Arial", Font.PLAIN, 14));
-		pfPassword.setBounds(204, 100, 235, 25);
-		contentPane.add(pfPassword);
-
-		ImageIcon backgroundImageIcon = new ImageIcon(ResourceUtil.loadPathResource("\\ImagesResource\\signin.jpg"));
-		JLabel backgroundLabel = new JLabel(backgroundImageIcon);
-		backgroundLabel.setBounds(0, 0, 484, 261);
-		contentPane.add(backgroundLabel);
-
-		this.setVisible(true);
+		this.setSize(400, 460);
+		this.contentPane = this.createContentPane();
+		this.setContentPane(this.contentPane);
 		this.setLocationRelativeTo(null);
+	}
+	
+	public JPanel createContentPane() {
+		JPanel panel = this.createPanel();
+		panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1; 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		
+		gbc.gridy = 0;
+		panel.add(this.TitlePanel(), gbc);
+		gbc.gridy = 1;
+		panel.add(this.UsernamePanel(), gbc);
+		gbc.gridy = 2;
+		panel.add(this.PasswordPanel(), gbc);
+		gbc.gridy = 3;
+		panel.add(this.ButtonPanel(), gbc);
+		gbc.gridy = 4;
+		panel.add(this.SubtitlePanel(), gbc);
+		
+		return panel;
+	}
+	
+	public JPanel TitlePanel() {
+		JPanel panel = this.createPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		JLabel label = this.createLabel("ĐĂNG NHẬP");
+		label.setFont(new Font("Tahoma", Font.BOLD, 24));
+		panel.add(label);
+		return panel;
+	}
+	
+	public JPanel SubtitlePanel() {
+		JPanel panel = this.createPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		JLabel label = this.createLabel("Chưa có tài khoản? ");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(label);
+		JLabel label2 = this.createLabel("Đăng ký");
+		label2.setForeground(Colors.Primary);
+		label2.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel.add(label2);
+		return panel;
+	}
+	
+	public JPanel UsernamePanel() {
+		JPanel panel = this.createPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1; 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		panel.add(this.createLabel("Tên đăng nhập:"), gbc);
+		tfUsername = new JTextField();
+		tfUsername.setBorder(new RoundedBorder(12));
+		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		gbc.gridy = 1;
+		panel.add(tfUsername, gbc);
+		return panel;
+	}
+	
+	public JPanel PasswordPanel() {
+		JPanel panel = this.createPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1; 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		panel.add(this.createLabel("Mật khẩu:"), gbc);
+		pfPassword = new JPasswordField();
+		pfPassword.setBorder(new RoundedBorder(12));
+		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		gbc.gridy = 1;
+		panel.add(pfPassword, gbc);
+		return panel;
+	}
+	
+	public JPanel ButtonPanel() {
+		JPanel panel = this.createPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panel.add(this.BtnSignUp());
+		panel.add(this.BtnCancel());
+		panel.setBorder(new EmptyBorder(0,0,0,0));
+		return panel;
+	}
+	
+	public JLabel createLabel(String content) {
+		JLabel label = new JLabel(content);
+		label.setFont(new Font("Tahoma", Font.BOLD, 14));
+		label.setBorder(new EmptyBorder(0, 0, 5, 0));
+		return label;
+	}
+	
+	public JPanel createPanel() {
+		JPanel panel = new JPanel();
+		panel.setForeground(Colors.Black);
+		panel.setBackground(Colors.White);
+		panel.setBorder(new EmptyBorder(0, 20, 20, 20));
+		return panel;
+	}
+	
+	public JButton BtnSignUp() {
+		JButton btn = new Button("Đăng nhập", ButtonType.PRIMARY);
+		btn.addActionListener(e -> this.onSubmit());
+		return btn;
+	}
+	
+	public JButton BtnCancel() {
+		JButton btn = new Button("Hủy", ButtonType.DANGER);
+		btn.addActionListener(e -> {
+			new AuthView();
+			this.dispose();
+		});
+		return btn;
 	}
 
 	public JTextField getTfUsername() {
