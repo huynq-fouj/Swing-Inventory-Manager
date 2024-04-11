@@ -16,12 +16,12 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 
 	@Override
 	public ConnectionPool getCP() {
-		return this.getCP();
+		return super.getCP();
 	}
 
 	@Override
 	public void releaseConnection() {
-		this.releaseConnection();
+		super.releaseConnection();
 	}
 
 	@Override

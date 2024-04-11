@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Components.Buttons.SideBarButton;
+import Shared.AuthContext;
 import Shared.PageState;
 import Themes.Colors;
 import Views.Auth.AuthView;
@@ -44,8 +45,10 @@ public class SideBar extends JPanel {
 		gbc.gridy = 3;
 		this.add(this.BtnEmployee(), gbc);
 		gbc.gridy = 4;
-		this.add(this.BtnUser(), gbc);
-		gbc.gridy = 5;
+		//if(AuthContext.getUser().getUser_role() >= 5) {
+			this.add(this.BtnUser(), gbc);
+			gbc.gridy = 5;
+		//}
 		this.add(this.BtnLogout(), gbc);
 	}
 	

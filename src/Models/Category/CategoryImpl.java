@@ -16,12 +16,12 @@ public class CategoryImpl extends BasicImpl implements Category {
 
 	@Override
 	public ConnectionPool getCP() {
-		return this.getCP();
+		return super.getCP();
 	}
 
 	@Override
 	public void releaseConnection() {
-		this.releaseConnection();
+		super.releaseConnection();
 	}
 
 	@Override

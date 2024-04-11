@@ -17,12 +17,12 @@ public class UserImpl extends BasicImpl implements User {
 
 	@Override
 	public ConnectionPool getCP() {
-		return this.getCP();
+		return super.getCP();
 	}
 
 	@Override
 	public void releaseConnection() {
-		this.releaseConnection();
+		super.releaseConnection();
 	}
 
 	@Override
@@ -128,14 +128,14 @@ public class UserImpl extends BasicImpl implements User {
 	@Override
 	public ResultSet getUser(String username, String userpass) {
 		ArrayList<String> sql = new ArrayList<>();
-		String sqlSelect = "SELECT * FROM tbluser WHERE (user_name = ?) AND (user_pass = md5(?));";
-		String sqlUpdate = "UPDATE tbluser SET user_logined = user_logined + 1 WHERE (user_name=?) AND (user_pass = md5(?));";
+		String sqlSelect = "SELECT * FROM tbluser WHERE (user_name = ?) AND (user_password = md5(?));";
+		String sqlUpdate = "UPDATE tbluser SET user_logined = user_logined + 1 WHERE (user_name=?) AND (user_password = md5(?));";
 		sql.add(sqlSelect);
 		sql.add(sqlUpdate);
 		return this.get(sql, username, userpass);
 	}
 	
-	public String createConditions(UserObject similar) {
+	private String createConditions(UserObject similar) {
 		StringBuilder conds = new StringBuilder();
 		if(similar != null) {
 			String key = similar.getUser_name();
