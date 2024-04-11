@@ -116,7 +116,7 @@ public class SignUpView extends JFrame {
 		gbc.gridy = 0;
 		panel.add(this.createLabel("Tên đăng nhập:"), gbc);
 		tfUsername = new JTextField();
-		tfUsername.setBorder(new RoundedBorder(12));
+		tfUsername.setBorder(new RoundedBorder(13));
 		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		gbc.gridy = 1;
 		panel.add(tfUsername, gbc);
@@ -133,7 +133,7 @@ public class SignUpView extends JFrame {
 		gbc.gridy = 0;
 		panel.add(this.createLabel("Mật khẩu:"), gbc);
 		pwdPassword = new JPasswordField();
-		pwdPassword.setBorder(new RoundedBorder(12));
+		pwdPassword.setBorder(new RoundedBorder(13));
 		pwdPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		gbc.gridy = 1;
 		panel.add(pwdPassword, gbc);
@@ -150,7 +150,7 @@ public class SignUpView extends JFrame {
 		gbc.gridy = 0;
 		panel.add(this.createLabel("Xác nhận mật khẩu:"), gbc);
 		pwdConfirm = new JPasswordField();
-		pwdConfirm.setBorder(new RoundedBorder(12));
+		pwdConfirm.setBorder(new RoundedBorder(13));
 		pwdConfirm.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		gbc.gridy = 1;
 		panel.add(pwdConfirm, gbc);

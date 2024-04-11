@@ -16,12 +16,12 @@ public class ProductImpl extends BasicImpl implements Product {
 
 	@Override
 	public ConnectionPool getCP() {
-		return this.getCP();
+		return super.getCP();
 	}
 
 	@Override
 	public void releaseConnection() {
-		this.releaseConnection();
+		super.releaseConnection();
 	}
 
 	@Override

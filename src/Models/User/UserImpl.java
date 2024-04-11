@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import Databases.ConnectionPool;
 import Models.Basic.BasicImpl;
 import Models.Objects.UserObject;
+import Utilities.Utilities;
 
 public class UserImpl extends BasicImpl implements User {
 
@@ -17,12 +18,12 @@ public class UserImpl extends BasicImpl implements User {
 
 	@Override
 	public ConnectionPool getCP() {
-		return this.getCP();
+		return super.getCP();
 	}
 
 	@Override
 	public void releaseConnection() {
-		this.releaseConnection();
+		super.releaseConnection();
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class UserImpl extends BasicImpl implements User {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
 			pre.setString(1, item.getUser_name());
 			pre.setString(2, item.getUser_password());
-			pre.setString(3, item.getUser_fullname());
+			pre.setString(3, Utilities.encode(item.getUser_fullname()));
 			pre.setString(4, item.getUser_email());
 			pre.setString(5, item.getUser_phone());
 			pre.setInt(6, item.getUser_role());
@@ -85,7 +86,7 @@ public class UserImpl extends BasicImpl implements User {
 		sql.append("WHERE user_id=? ");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
-			pre.setString(1, item.getUser_fullname());
+			pre.setString(1, Utilities.encode(item.getUser_fullname()));
 			pre.setString(2, item.getUser_email());
 			pre.setString(3, item.getUser_phone());
 			pre.setInt(4, item.getUser_id());
@@ -128,17 +129,17 @@ public class UserImpl extends BasicImpl implements User {
 	@Override
 	public ResultSet getUser(String username, String userpass) {
 		ArrayList<String> sql = new ArrayList<>();
-		String sqlSelect = "SELECT * FROM tbluser WHERE (user_name = ?) AND (user_pass = md5(?));";
-		String sqlUpdate = "UPDATE tbluser SET user_logined = user_logined + 1 WHERE (user_name=?) AND (user_pass = md5(?));";
+		String sqlSelect = "SELECT * FROM tbluser WHERE (user_name = ?) AND (user_password = md5(?));";
+		String sqlUpdate = "UPDATE tbluser SET user_logined = user_logined + 1 WHERE (user_name=?) AND (user_password = md5(?));";
 		sql.add(sqlSelect);
 		sql.add(sqlUpdate);
 		return this.get(sql, username, userpass);
 	}
 	
-	public String createConditions(UserObject similar) {
+	private String createConditions(UserObject similar) {
 		StringBuilder conds = new StringBuilder();
 		if(similar != null) {
-			String key = similar.getUser_name();
+			String key = Utilities.encode(similar.getUser_name());
 			if(key != null && !key.equalsIgnoreCase("")) {
 				conds.append(" (user_name LIKE '%"+key+"%') OR ");
 				conds.append(" (user_fullname LIKE '%"+key+"%') OR ");

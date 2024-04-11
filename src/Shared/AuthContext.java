@@ -4,7 +4,7 @@ import Models.Objects.UserObject;
 
 public class AuthContext {
 
-	private static UserObject user;
+	private static UserObject user = new UserObject();
 	
 	public static void setUser(UserObject user) {
 		AuthContext.user = user;

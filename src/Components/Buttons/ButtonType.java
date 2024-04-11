@@ -7,4 +7,5 @@ public enum ButtonType {
 	DARK,
 	LIGHT,
 	WARNING,
+	SECONDARY,
 }

@@ -1,10 +1,15 @@
 package Controllers;
 
 import Components.Dialog;
-import Models.KhoDb;
-import Models.TaiKhoan.TaiKhoan;
+import Databases.ConnectionPool;
+import Databases.ConnectionPoolImpl;
+import Models.Objects.UserObject;
+import Models.User.UserControl;
+import Shared.AuthContext;
+import Shared.ConnectionContext;
 import Views.Auth.SignInView;
 import Views.Auth.SignUpView;
+import Views.Pages.HomePage;
 import Views.Pages.HomePageView;
 
 public class AuthController {
@@ -13,10 +18,19 @@ public class AuthController {
 		String username = siView.getTfUsername().getText();
 		char[] ps = siView.getPfPassword().getPassword();
 		String password = new String(ps);
-		KhoDb db = new KhoDb();
-		boolean check = db.getLiTaiKhoan().checkSignIn(username, password);
-		if (check) {
-			new HomePageView();
+		ConnectionPool cp = ConnectionContext.getCP();
+		UserControl uc = new UserControl(cp);
+		if(cp == null) {
+			ConnectionContext.setCP(uc.getCP());
+		}
+		UserObject user = uc.getUserObject(username, password);
+		uc.releaseConnection();
+		if (user != null) {
+			AuthContext.setUser(user);
+//			HomePageView view = new HomePageView();
+//			view.setVisible(true);
+			HomePage home = new HomePage();
+			home.setVisible(true);
 			siView.dispose();
 		} else {
 			Dialog.error(siView, "Sai tên đăng nhập hoặc mật khẩu!");
@@ -30,15 +44,24 @@ public class AuthController {
 		if (userName != null && !userName.equalsIgnoreCase("")) {
 			if (pass1 != null && !pass1.equalsIgnoreCase("") && pass1 != null && !pass2.equalsIgnoreCase("")
 					&& pass1.equals(pass2)) {
-
-				KhoDb db = new KhoDb();
-				TaiKhoan item = new TaiKhoan();
-				item.setMatKhau(pass2);
-				item.setTenDangNhap(userName);
-				if (db.getLiTaiKhoan().addTaikhoan(item)) {
-					HomePageView view = new HomePageView();
-					Dialog.success(view, "Đăng ký thành công!");
+				ConnectionPool cp = ConnectionContext.getCP();
+				UserControl uc = new UserControl(cp);
+				if(cp == null) {
+					ConnectionContext.setCP(uc.getCP());
+				}
+				UserObject user = new UserObject();
+				user.setUser_name(userName);
+				user.setUser_password(pass1);
+				boolean check = uc.addUser(user);
+				//uc.releaseConnection();
+				if (check) {
+					AuthContext.setUser(user);
+//					HomePageView home = new HomePageView();
+//					home.setVisible(true);
+					HomePage home = new HomePage();
+					home.setVisible(true);
 					suView.dispose();
+					Dialog.success(home, "Đăng ký thành công!");
 				} else {
 					Dialog.error(suView, "Tên đăng nhập đã tồn tại!");
 				}

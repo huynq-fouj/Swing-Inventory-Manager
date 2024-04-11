@@ -31,8 +31,12 @@ public class Button extends RoundButton {
 				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Danger, Colors.DarkDanger));
 				break;
 			case SUCCESS:
-				this.setBackground(Colors.Primary);
+				this.setBackground(Colors.Success);
 				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Success, Colors.DarkSuccess));
+				break;
+			case SECONDARY:
+				this.setBackground(Colors.Secondary);
+				this.addMouseListener(HoverEvent.changeBackground(this, Colors.Secondary, Colors.DarkSecondary));
 				break;
 			case DARK:
 				this.setBackground(Colors.Dark);

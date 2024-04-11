@@ -15,8 +15,8 @@ public class MainView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//AuthView frame = new AuthView();
-					HomePage frame = new HomePage();
+					AuthView frame = new AuthView();
+					//HomePage frame = new HomePage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
