@@ -15,22 +15,19 @@ import Shared.PageState;
 import Themes.Colors;
 import Utilities.ResourceUtil;
 
-public class UserPage extends JFrame {
-
-	/**
-	 * 
-	 */
+public class EmployeePage extends JFrame {
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	public UserPage() {
-		PageState.page = "user";
+	public EmployeePage() {
+		PageState.page = "employee";
 		this.initUI();
 		
 	}
 	
 	public void initUI() {
-		this.setTitle("Người dùng");
+		this.setTitle("Nhân viên");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 920, 600);
 		this.contentPane = this.createContentPane();
@@ -63,7 +60,7 @@ public class UserPage extends JFrame {
 		gbc.gridy = 0;
 		gbc.weightx = 1; 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		String path = ResourceUtil.loadStaticPath("images\\user.png");
+		String path = ResourceUtil.loadStaticPath("images\\employee.png");
 		ImageIcon imageIcon = new ImageIcon(path);
 		JLabel label = new JLabel(imageIcon);
 		panel.add(label, gbc);
@@ -78,5 +75,5 @@ public class UserPage extends JFrame {
 		panel.setBackground(Colors.White);
 		return panel;
 	}
-
+	
 }

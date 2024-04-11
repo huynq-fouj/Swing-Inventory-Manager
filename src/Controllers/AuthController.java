@@ -27,10 +27,10 @@ public class AuthController {
 		uc.releaseConnection();
 		if (user != null) {
 			AuthContext.setUser(user);
-			HomePageView view = new HomePageView();
-			view.setVisible(true);
-//			HomePage home = new HomePage();
-//			home.setVisible(true);
+//			HomePageView view = new HomePageView();
+//			view.setVisible(true);
+			HomePage home = new HomePage();
+			home.setVisible(true);
 			siView.dispose();
 		} else {
 			Dialog.error(siView, "Sai tên đăng nhập hoặc mật khẩu!");
@@ -56,12 +56,12 @@ public class AuthController {
 				//uc.releaseConnection();
 				if (check) {
 					AuthContext.setUser(user);
-					HomePageView view = new HomePageView();
-					view.setVisible(true);
-					Dialog.success(view, "Đăng ký thành công!");
-//					HomePage home = new HomePage();
+//					HomePageView home = new HomePageView();
 //					home.setVisible(true);
+					HomePage home = new HomePage();
+					home.setVisible(true);
 					suView.dispose();
+					Dialog.success(home, "Đăng ký thành công!");
 				} else {
 					Dialog.error(suView, "Tên đăng nhập đã tồn tại!");
 				}
