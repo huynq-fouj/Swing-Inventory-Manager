@@ -1,5 +1,6 @@
 package Views.Auth;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -112,7 +113,7 @@ public class SignInView extends JFrame {
 		gbc.gridy = 0;
 		panel.add(this.createLabel("Tên đăng nhập:"), gbc);
 		tfUsername = new JTextField();
-		tfUsername.setBorder(new RoundedBorder(12));
+		tfUsername.setBorder(new RoundedBorder(13));
 		tfUsername.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		gbc.gridy = 1;
 		panel.add(tfUsername, gbc);
@@ -129,7 +130,7 @@ public class SignInView extends JFrame {
 		gbc.gridy = 0;
 		panel.add(this.createLabel("Mật khẩu:"), gbc);
 		pfPassword = new JPasswordField();
-		pfPassword.setBorder(new RoundedBorder(12));
+		pfPassword.setBorder(new RoundedBorder(13));
 		pfPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		gbc.gridy = 1;
 		panel.add(pfPassword, gbc);

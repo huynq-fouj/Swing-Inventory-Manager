@@ -20,5 +20,7 @@ public class Colors {
 	public static Color LightWarning = new Color(255, 203, 46);
 	public static Color Transparent = new Color(0, 0, 0, 0);
 	public static Color WhiteHover = new Color(230, 230, 230);
+	public static Color Secondary = new Color(108, 117, 125);
+	public static Color DarkSecondary = new Color(86, 94, 100);
 		
 }
