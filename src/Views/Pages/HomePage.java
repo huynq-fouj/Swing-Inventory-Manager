@@ -11,7 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -41,6 +44,7 @@ public class HomePage extends JFrame {
 	private JTextField email;
 	private JTextField phone;
 	private JTextField address;
+	private JTextArea notes;
 
 	public HomePage() {
 		PageState.page = "home";
@@ -93,10 +97,17 @@ public class HomePage extends JFrame {
 		gbc.gridy = 3;
 		panel.add(this.PhoneField(user.getUser_phone()), gbc);
 		gbc.gridx = 1;
-		panel.add(this.AddressField(""), gbc);
+		panel.add(this.AddressField(user.getUser_address()), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 4;
+		panel.add(this.NotesField(user.getUser_notes()), gbc);
+		gbc.gridx = 1;
+		panel.add(this.InfoField(user), gbc);
+		gbc.gridx = 0;
+		gbc.gridwidth = 2;
+		gbc.gridy = 5;
 		panel.add(this.BtnField(), gbc);
+		gbc.gridwidth = 1;
 		return panel;
 	}
 	
@@ -115,6 +126,25 @@ public class HomePage extends JFrame {
 		label.setFont(new Font("Tahoma", Font.BOLD, 16));
 		label.setBorder(new EmptyBorder(0, 50, 30, 0));
 		return label;
+	}
+	
+	public JPanel InfoField(UserObject user) {
+		JPanel panel = this.createPanelField();
+		JLabel created = new JLabel("Ngày tạo: " + user.getUser_created_at());
+		created.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		created.setBorder(new EmptyBorder(0, 0, 10, 0));
+		JLabel modified = new JLabel("Sửa lần cuối: " + user.getUser_modified_at());
+		modified.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		modified.setBorder(new EmptyBorder(0, 0, 10, 0));
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.weightx = 1;
+		gbc.gridy = 0;
+		panel.add(created, gbc);
+		gbc.gridy = 1;
+		panel.add(modified, gbc);
+		return panel;
 	}
 
 	public JPanel createPanelField() {
@@ -188,6 +218,28 @@ public class HomePage extends JFrame {
 		panel.add(this.address, gbc);
 		return panel;
 	}
+	
+	public JPanel NotesField(String notes) {
+		JPanel panel = this.createPanelField();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		panel.add(this.createLabel("Ghi chú:"), gbc);
+		this.notes = new JTextArea(5, 10);
+		this.notes.setBorder(new RoundedBorder(13));
+		this.notes.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		this.notes.setText(notes);
+		this.notes.setWrapStyleWord(true);
+		this.notes.setLineWrap(true);
+		JScrollPane scroll = new JScrollPane(this.notes);
+		scroll.setBorder(new RoundedBorder(13, 5));
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		gbc.gridy = 1;
+		panel.add(scroll, gbc);
+		return panel;
+	}
 
 	public JPanel BtnField() {
 		JPanel panel = this.createPanelField();
@@ -195,7 +247,6 @@ public class HomePage extends JFrame {
 		JButton btnUpd = new Button("Cập nhật", ButtonType.SUCCESS);
 		btnUpd.addActionListener(e -> this.onSubmit());
 		panel.add(btnUpd);
-		// panel.add(this.createPanel());
 		JButton btnCancel = new Button("Hủy", ButtonType.SECONDARY);
 		btnCancel.addActionListener(e -> this.handleCancel());
 		panel.add(btnCancel);
@@ -239,6 +290,7 @@ public class HomePage extends JFrame {
 		String txtEmail = this.email.getText().trim();
 		String txtPhone = this.phone.getText().trim();
 		String txtAddress = this.address.getText().trim();
+		String txtNotes = this.notes.getText().trim();
 		UserObject user = AuthContext.getUser();
 		if (this.isChange(user)) {
 			if (Dialog.confirm(this, "Bạn có chắc chắn muốn sửa thông tin?")) {
@@ -251,19 +303,25 @@ public class HomePage extends JFrame {
 						if (txtPhone.equals("")) {
 							Dialog.error(this, "Số điện thoại không được để trống!");
 						} else {
-							user.setUser_fullname(txtFullname);
-							user.setUser_email(txtEmail);
-							user.setUser_phone(txtPhone);
-							// user.setUser_address(txtAddress);
+							UserObject newUser = new UserObject(user);
+							newUser.setUser_fullname(txtFullname);
+							newUser.setUser_email(txtEmail);
+							newUser.setUser_phone(txtPhone);
+							newUser.setUser_address(txtAddress);
+							newUser.setUser_notes(txtNotes);
 							ConnectionPool cp = ConnectionContext.getCP();
 							UserControl uc = new UserControl(cp);
 							if (cp == null) {
 								ConnectionContext.setCP(uc.getCP());
 							}
-							boolean result = uc.editUser(user);
+							boolean result = uc.editUser(newUser);
 							if (result) {
-								AuthContext.setUser(user);
-								Dialog.success(this, "Cập nhật thông tin thành công!");
+								newUser = uc.getUserObject(user.getUser_id());
+								AuthContext.setUser(newUser);
+								HomePage view = new HomePage();
+								view.setVisible(true);
+								Dialog.success(view, "Cập nhật thông tin thành công!");
+								this.dispose();
 							} else {
 								Dialog.success(this, "Cập nhật thông tin không thành công!");
 							}
@@ -282,8 +340,10 @@ public class HomePage extends JFrame {
 			return true;
 		if (!this.phone.getText().trim().equals(user.getUser_phone()))
 			return true;
-		// if(!this.address.getText().trim().equals(user.getUser_address())) return
-		// true;
+		if(!this.address.getText().trim().equals(user.getUser_address())) 
+			return true;
+		if(!this.notes.getText().trim().equals(user.getUser_notes())) 
+			return true;
 		return false;
 	}
 
@@ -292,7 +352,8 @@ public class HomePage extends JFrame {
 		this.fullname.setText(u.getUser_fullname());
 		this.email.setText(u.getUser_email());
 		this.phone.setText(u.getUser_phone());
-		this.address.setText("");
+		this.address.setText(u.getUser_address());
+		this.notes.setText(u.getUser_notes());
 	}
 
 }

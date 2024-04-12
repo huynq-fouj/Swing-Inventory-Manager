@@ -27,8 +27,6 @@ public class AuthController {
 		uc.releaseConnection();
 		if (user != null) {
 			AuthContext.setUser(user);
-//			HomePageView view = new HomePageView();
-//			view.setVisible(true);
 			HomePage home = new HomePage();
 			home.setVisible(true);
 			siView.dispose();
@@ -52,19 +50,30 @@ public class AuthController {
 				UserObject user = new UserObject();
 				user.setUser_name(userName);
 				user.setUser_password(pass1);
-				boolean check = uc.addUser(user);
-				//uc.releaseConnection();
-				if (check) {
-					AuthContext.setUser(user);
-//					HomePageView home = new HomePageView();
-//					home.setVisible(true);
-					HomePage home = new HomePage();
-					home.setVisible(true);
-					suView.dispose();
-					Dialog.success(home, "Đăng ký thành công!");
+				boolean isExists = uc.existsByName(userName);
+				if (!isExists) {
+					boolean check = uc.addUser(user);
+					if(check) {
+						user = uc.getUserObject(userName, pass2);
+						if(user != null) {
+							AuthContext.setUser(user);
+							HomePage home = new HomePage();
+							home.setVisible(true);
+							suView.dispose();
+							Dialog.success(home, "Đăng ký thành công!");
+						} else {
+							SignInView view = new SignInView();
+							view.setVisible(true);
+							suView.dispose();
+							Dialog.success(view, "Đăng ký thành công!");
+						}
+					} else {
+						Dialog.error(suView, "Đăng ký không thành công!");
+					}
 				} else {
 					Dialog.error(suView, "Tên đăng nhập đã tồn tại!");
 				}
+				uc.releaseConnection();
 			} else {
 				Dialog.error(suView, "Mật khẩu không hợp lệ!");
 			}

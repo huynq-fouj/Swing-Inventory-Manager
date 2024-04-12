@@ -28,6 +28,10 @@ public class UserControl {
 	public boolean addUser(UserObject item) {
 		return this.um.addUser(item);
 	}
+	
+	public boolean existsByName(String name) {
+		return this.um.isExistsByName(name);
+	}
 
 	public boolean editUser(UserObject item) {
 		return this.um.editUser(item);

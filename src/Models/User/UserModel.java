@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Utilities.Utilities;
+import Utilities.Utilities_date;
 
 public class UserModel {
 
@@ -30,6 +31,12 @@ public class UserModel {
 	
 	public boolean addUser(UserObject item) {
 		return this.u.addUser(item);
+	}
+	
+	public boolean isExistsByName(String username) {
+		UserObject user = new UserObject();
+		user.setUser_name(username);
+		return this.u.isExisting(user);
 	}
 
 	public boolean editUser(UserObject item) {
@@ -55,6 +62,10 @@ public class UserModel {
 					item.setUser_phone(rs.getString("user_phone"));
 					item.setUser_logined(rs.getInt("user_logined"));
 					item.setUser_role(rs.getInt("user_role"));
+					item.setUser_created_at(rs.getString("user_created_at"));
+					item.setUser_modified_at(rs.getString("user_modified_at"));
+					item.setUser_notes(Utilities.decode(rs.getString("user_notes")));
+					item.setUser_address(Utilities.decode(rs.getString("user_address")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -77,6 +88,10 @@ public class UserModel {
 					item.setUser_phone(rs.getString("user_phone"));
 					item.setUser_logined(rs.getInt("user_logined"));
 					item.setUser_role(rs.getInt("user_role"));
+					item.setUser_created_at(rs.getString("user_created_at"));
+					item.setUser_modified_at(rs.getString("user_modified_at"));
+					item.setUser_notes(Utilities.decode(rs.getString("user_notes")));
+					item.setUser_address(Utilities.decode(rs.getString("user_address")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -100,6 +115,10 @@ public class UserModel {
 					item.setUser_phone(rs.getString("user_phone"));
 					item.setUser_logined(rs.getInt("user_logined"));
 					item.setUser_role(rs.getInt("user_role"));
+					item.setUser_created_at(rs.getString("user_created_at"));
+					item.setUser_modified_at(rs.getString("user_modified_at"));
+					item.setUser_notes(Utilities.decode(rs.getString("user_notes")));
+					item.setUser_address(Utilities.decode(rs.getString("user_address")));
 					items.add(item);
 				}
 			} catch (SQLException e) {

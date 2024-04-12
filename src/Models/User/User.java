@@ -8,6 +8,7 @@ import Models.Objects.UserObject;
 public interface User extends ShareControl {
 
 	public boolean addUser(UserObject item);
+	public boolean isExisting(UserObject item);
 	public boolean editUser(UserObject item);
 	public boolean delUser(UserObject item);
 	public ResultSet getUser(int id);

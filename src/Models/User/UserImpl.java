@@ -9,6 +9,7 @@ import Databases.ConnectionPool;
 import Models.Basic.BasicImpl;
 import Models.Objects.UserObject;
 import Utilities.Utilities;
+import Utilities.Utilities_date;
 
 public class UserImpl extends BasicImpl implements User {
 
@@ -38,8 +39,9 @@ public class UserImpl extends BasicImpl implements User {
 		 */
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO tbluser(");
-		sql.append("user_name, user_password, user_fullname, user_email, user_phone, user_role, user_logined");
-		sql.append(") VALUE(?,md5(?),?,?,?,?,?)");
+		sql.append("user_name, user_password, user_fullname, user_email, user_phone, user_role, user_logined,");
+		sql.append("user_created_at, user_modified_at, user_notes, user_address");
+		sql.append(") VALUE(?,md5(?),?,?,?,?,?,?,?,?,?)");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
 			pre.setString(1, item.getUser_name());
@@ -49,6 +51,10 @@ public class UserImpl extends BasicImpl implements User {
 			pre.setString(5, item.getUser_phone());
 			pre.setInt(6, item.getUser_role());
 			pre.setInt(7, item.getUser_logined());
+			pre.setString(8, Utilities_date.getDate());
+			pre.setString(9, Utilities_date.getDate());
+			pre.setString(10, Utilities.encode(item.getUser_notes()));
+			pre.setString(11, Utilities.encode(item.getUser_address()));
 			return this.add(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,7 +67,7 @@ public class UserImpl extends BasicImpl implements User {
 		return false;
 	}
 
-	private boolean isExisting(UserObject item) {
+	public boolean isExisting(UserObject item) {
 		boolean flag = false;
 		String sql = "SELECT user_id FROM tbluser WHERE user_name='" + item.getUser_name() + "'";
 		ResultSet rs = this.gets(sql);
@@ -82,14 +88,18 @@ public class UserImpl extends BasicImpl implements User {
 	public boolean editUser(UserObject item) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("UPDATE tbluser SET ");
-		sql.append("user_fullname=?, user_email=?, user_phone=? ");
+		sql.append("user_fullname=?, user_email=?, user_phone=?, ");
+		sql.append("user_modified_at=?, user_notes=?, user_address=? ");
 		sql.append("WHERE user_id=? ");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
 			pre.setString(1, Utilities.encode(item.getUser_fullname()));
 			pre.setString(2, item.getUser_email());
 			pre.setString(3, item.getUser_phone());
-			pre.setInt(4, item.getUser_id());
+			pre.setString(4, Utilities_date.getDate());
+			pre.setString(5, Utilities.encode(item.getUser_notes()));
+			pre.setString(6, Utilities.encode(item.getUser_address()));
+			pre.setInt(7, item.getUser_id());
 			return this.edit(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
