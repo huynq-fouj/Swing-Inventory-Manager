@@ -1,9 +1,7 @@
 package Components;
 
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,7 +11,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Components.Buttons.SideBarButton;
-import Shared.AuthContext;
 import Shared.PageState;
 import Themes.Colors;
 import Themes.HoverEvent;
@@ -22,6 +19,7 @@ import Views.Auth.AuthView;
 import Views.Pages.CategoryPage;
 import Views.Pages.EmployeePage;
 import Views.Pages.HomePage;
+import Views.Pages.ProfilePage;
 import Views.Pages.ProductPage;
 import Views.Pages.UserPage;
 
@@ -69,6 +67,8 @@ public class SideBar extends JPanel {
 		//}
 		this.add(this.createEmptyPanel(), gbc);
 		gbc.gridy = 10;
+		this.add(this.BtnProfile(), gbc);
+		gbc.gridy = 11;
 		this.add(this.BtnLogout(), gbc);
 	}
 	
@@ -157,7 +157,7 @@ public class SideBar extends JPanel {
 	
 	public JButton BtnUser() {
 		JButton btn = this.createSideBarButton("Người dùng");
-		String path = ResourceUtil.loadStaticPath("images/icons/user.png");
+		String path = ResourceUtil.loadStaticPath("images/icons/users.png");
 		ImageIcon icon = new ImageIcon(path);
 		btn.setIcon(icon);
 		if(PageState.page == "user") {
@@ -167,6 +167,25 @@ public class SideBar extends JPanel {
 		btn.addActionListener(e -> {
 			if(PageState.page != "user") {
 				UserPage view = new UserPage();
+				view.setVisible(true);
+				this.currentFrame.dispose();
+			}
+		});
+		return btn;
+	}
+	
+	public JButton BtnProfile() {
+		JButton btn = this.createSideBarButton("Tài khoản");
+		String path = ResourceUtil.loadStaticPath("images/icons/profile.png");
+		ImageIcon icon = new ImageIcon(path);
+		btn.setIcon(icon);
+		if(PageState.page == "profile") {
+			btn.addMouseListener(HoverEvent.changeBackground(btn, Colors.WhiteHover, Colors.WhiteHover));
+			btn.setBackground(Colors.WhiteHover);
+		}
+		btn.addActionListener(e -> {
+			if(PageState.page != "profile") {
+				ProfilePage view = new ProfilePage();
 				view.setVisible(true);
 				this.currentFrame.dispose();
 			}
