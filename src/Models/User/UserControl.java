@@ -52,5 +52,9 @@ public class UserControl {
 	public ArrayList<UserObject> getUserObjects(UserObject similar) {
 		return this.um.getUserObjects(similar);
 	}
+
+	public int countUser() {
+		return this.um.countUser();
+	}
 	
 }

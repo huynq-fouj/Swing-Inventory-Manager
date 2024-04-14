@@ -1,11 +1,9 @@
 package Models.Category;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import Databases.ShareControl;
 import Models.Objects.CategoryObject;
-import Models.Objects.UserObject;
 
 public interface Category extends ShareControl {
 
@@ -13,7 +11,7 @@ public interface Category extends ShareControl {
 	public boolean editCategory(CategoryObject item);
 	public boolean delCategory(CategoryObject item);
 	
-	public ResultSet getCategory(Short id);
-	public ArrayList<ResultSet> getCategories(UserObject id);	
-	
+	public ResultSet getCategory(int id);
+	public ResultSet getCategories(CategoryObject similar);	
+	public ResultSet countCategory(CategoryObject similar);
 }

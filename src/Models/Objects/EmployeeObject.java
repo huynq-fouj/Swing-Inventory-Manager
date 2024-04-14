@@ -9,7 +9,11 @@ public class EmployeeObject {
 	private String employee_birthday;
 	private String employee_email;
 	private double employee_salary;
-	private int auhtor_id;
+	private int author_id;
+	private String employee_created_date;
+	private String employee_modified_date;
+	private double employee_debt;
+	private String employee_position;
 
 	public int getEmployee_id() {
 		return employee_id;
@@ -39,8 +43,24 @@ public class EmployeeObject {
 		return employee_salary;
 	}
 
-	public int getAuhtor_id() {
-		return auhtor_id;
+	public int getAuthor_id() {
+		return author_id;
+	}
+
+	public String getEmployee_created_date() {
+		return employee_created_date;
+	}
+
+	public String getEmployee_modified_date() {
+		return employee_modified_date;
+	}
+
+	public double getEmployee_debt() {
+		return employee_debt;
+	}
+
+	public String getEmployee_position() {
+		return employee_position;
 	}
 
 	public void setEmployee_id(int employee_id) {
@@ -71,8 +91,24 @@ public class EmployeeObject {
 		this.employee_salary = employee_salary;
 	}
 
-	public void setAuhtor_id(int auhtor_id) {
-		this.auhtor_id = auhtor_id;
+	public void setAuthor_id(int author_id) {
+		this.author_id = author_id;
+	}
+
+	public void setEmployee_created_date(String employee_created_date) {
+		this.employee_created_date = employee_created_date;
+	}
+
+	public void setEmployee_modified_date(String employee_modified_date) {
+		this.employee_modified_date = employee_modified_date;
+	}
+
+	public void setEmployee_debt(double employee_debt) {
+		this.employee_debt = employee_debt;
+	}
+
+	public void setEmployee_position(String employee_position) {
+		this.employee_position = employee_position;
 	}
 
 }

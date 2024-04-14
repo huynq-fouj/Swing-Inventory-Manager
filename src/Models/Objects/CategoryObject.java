@@ -4,7 +4,9 @@ public class CategoryObject {
 	private int category_id;
 	private String category_name;
 	private String category_notes;
-	private int auhtor_id;
+	private int author_id;
+	private String category_created_date;
+	private String category_modified_date;
 
 	public int getCategory_id() {
 		return category_id;
@@ -18,8 +20,16 @@ public class CategoryObject {
 		return category_notes;
 	}
 
-	public int getAuhtor_id() {
-		return auhtor_id;
+	public int getAuthor_id() {
+		return author_id;
+	}
+
+	public String getCategory_created_date() {
+		return category_created_date;
+	}
+
+	public String getCategory_modified_date() {
+		return category_modified_date;
 	}
 
 	public void setCategory_id(int category_id) {
@@ -34,8 +44,16 @@ public class CategoryObject {
 		this.category_notes = category_notes;
 	}
 
-	public void setAuhtor_id(int auhtor_id) {
-		this.auhtor_id = auhtor_id;
+	public void setAuthor_id(int author_id) {
+		this.author_id = author_id;
+	}
+
+	public void setCategory_created_date(String category_created_date) {
+		this.category_created_date = category_created_date;
+	}
+
+	public void setCategory_modified_date(String category_modified_date) {
+		this.category_modified_date = category_modified_date;
 	}
 
 }

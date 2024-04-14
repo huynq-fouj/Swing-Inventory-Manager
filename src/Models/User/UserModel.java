@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Utilities.Utilities;
-import Utilities.Utilities_date;
 
 public class UserModel {
 
@@ -126,6 +125,22 @@ public class UserModel {
 			}
 		}
 		return items;
+	}
+
+	public int countUser() {
+		ResultSet rs = this.u.countUser();
+		if(rs != null) {
+			try {
+				if(rs.next()) {
+					return rs.getInt("total");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return 0;
 	}
 	
 }

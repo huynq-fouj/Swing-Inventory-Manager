@@ -15,9 +15,19 @@ import javax.swing.border.EmptyBorder;
 import Components.SideBar;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
+import Databases.ConnectionPool;
+import Models.Employee.EmployeeControl;
+import Models.Objects.EmployeeObject;
+import Models.Objects.ProductObject;
+import Models.Objects.UserObject;
+import Models.Product.ProductControl;
+import Models.User.UserControl;
+import Shared.AuthContext;
+import Shared.ConnectionContext;
 import Shared.PageState;
 import Themes.Colors;
 import Utilities.ResourceUtil;
+import Utilities.Utilities_date;
 
 public class HomePage extends JFrame {
 
@@ -54,6 +64,8 @@ private JPanel contentPane;
 	}
 	
 	private JPanel mainView() {
+		UserObject user = AuthContext.getUser();
+		ConnectionPool cp = ConnectionContext.getCP();
 		JPanel panel = this.createPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -65,12 +77,16 @@ private JPanel contentPane;
 		panel.add(this.createTitle(), gbc);
 		gbc.gridy = 1;
 		gbc.gridwidth = 1;
-		panel.add(this.ProductCard(), gbc);
+		panel.add(this.ProductCard(user, cp), gbc);
 		gbc.gridx = 1;
-		panel.add(this.EmployeeCard(), gbc);
+		panel.add(this.EmployeeCard(user, cp), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		panel.add(this.UserCard(), gbc);
+		//if(user.getUser_role() >= 5) {	
+			panel.add(this.UserCard(user, cp), gbc);
+			gbc.gridy = 3;
+		//}
+		panel.add(this.LabelField("Ngày: " + Utilities_date.getDate()), gbc);
 		return panel;
 	}
 	
@@ -84,21 +100,37 @@ private JPanel contentPane;
 		return panel;
 	}
 	
-	private JPanel ProductCard() {
+	private JPanel ProductCard(UserObject user, ConnectionPool cp) {
+		ProductControl pc = new ProductControl(cp);
+		if(cp == null) ConnectionContext.setCP(pc.getCP());
+		ProductObject similar = new ProductObject();
+		similar.setAuthor_id(user.getUser_id());
+		int count = pc.countProduct(similar);
+		pc.releaseConnection();
 		ImageIcon img = new ImageIcon(ResourceUtil.loadStaticPath("images\\cards\\product.png"));
-		JPanel panel = this.createInfoCard("Số lượng sản phẩm", "73 Sản phẩm", img);
+		JPanel panel = this.createInfoCard("Số lượng sản phẩm", count + " Sản phẩm", img);
 		return panel;
 	}
 	
-	private JPanel EmployeeCard() {
+	private JPanel EmployeeCard(UserObject user, ConnectionPool cp) {
+		EmployeeControl ec = new EmployeeControl(cp);
+		if(cp == null) ConnectionContext.setCP(ec.getCP());
+		EmployeeObject similar = new EmployeeObject();
+		similar.setAuthor_id(user.getUser_id());
+		int count = ec.countEmployee(similar);
+		ec.releaseConnection();
 		ImageIcon img = new ImageIcon(ResourceUtil.loadStaticPath("images\\cards\\employee.png"));
-		JPanel panel = this.createInfoCard("Số lượng nhân viên", "24 Nhân viên", img);
+		JPanel panel = this.createInfoCard("Số lượng nhân viên", count + " Nhân viên", img);
 		return panel;
 	}
 	
-	private JPanel UserCard() {
+	private JPanel UserCard(UserObject user, ConnectionPool cp) {
+		UserControl uc = new UserControl(cp);
+		if(cp == null) ConnectionContext.setCP(uc.getCP());
+		int count = uc.countUser();
+		uc.releaseConnection();
 		ImageIcon img = new ImageIcon(ResourceUtil.loadStaticPath("images\\cards\\user.png"));
-		JPanel panel = this.createInfoCard("Số lượng người dùng", "20 Người dùng", img);
+		JPanel panel = this.createInfoCard("Số lượng người dùng", count + " Người dùng", img);
 		return panel;
 	}
 	
@@ -148,6 +180,15 @@ private JPanel contentPane;
 		panel.add(label, gbc);
 		gbc.gridy = 1;
 		panel.add(sidebar, gbc);
+		return panel;
+	}
+	
+	public JPanel LabelField(String content) {
+		JPanel panel = this.createPanelField();
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JLabel label = new JLabel(content);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		panel.add(label);
 		return panel;
 	}
 	

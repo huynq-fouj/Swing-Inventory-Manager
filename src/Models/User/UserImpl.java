@@ -33,10 +33,7 @@ public class UserImpl extends BasicImpl implements User {
 		if (this.isExisting(item)) {
 			return false;
 		}
-		/**
-		 * user_id, user_name, user_password, user_email, user_phone, user_role,
-		 * user_logined
-		 */
+		
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO tbluser(");
 		sql.append("user_name, user_password, user_fullname, user_email, user_phone, user_role, user_logined,");
@@ -149,8 +146,9 @@ public class UserImpl extends BasicImpl implements User {
 	private String createConditions(UserObject similar) {
 		StringBuilder conds = new StringBuilder();
 		if(similar != null) {
-			String key = Utilities.encode(similar.getUser_name());
+			String key = similar.getUser_name();
 			if(key != null && !key.equalsIgnoreCase("")) {
+				key = Utilities.encode(key);
 				conds.append(" (user_name LIKE '%"+key+"%') OR ");
 				conds.append(" (user_fullname LIKE '%"+key+"%') OR ");
 				conds.append(" (user_email LIKE '%"+key+"%') ");
@@ -168,7 +166,13 @@ public class UserImpl extends BasicImpl implements User {
 	public ResultSet getUsers(UserObject similar) {
 		String sql = "SELECT * FROM tbluser ";
 		sql += this.createConditions(similar);
-		sql += "ORDER BY usr_id DESC;";
+		sql += "ORDER BY user_id DESC;";
+		return this.gets(sql);
+	}
+	
+	@Override
+	public ResultSet countUser() {
+		String sql = "SELECT COUNT(*) AS total FROM tbluser;";
 		return this.gets(sql);
 	}
 
