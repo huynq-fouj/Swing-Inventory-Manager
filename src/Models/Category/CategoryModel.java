@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Databases.ConnectionPool;
 import Models.Objects.CategoryObject;
+import Utilities.Utilities;
 
 public class CategoryModel {
 
@@ -42,6 +43,11 @@ private Category c;
 			try {
 				if(rs.next()) {
 					item = new CategoryObject();
+					item.setCategory_id(rs.getInt("category_id"));
+					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
+					item.setCategory_created_date(rs.getString("category_created_date"));
+					item.setCategory_modified_date(rs.getString("category_modified_date"));
+					item.setCategory_notes(Utilities.decode(rs.getString("category_notes")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -58,7 +64,11 @@ private Category c;
 			try {
 				while(rs.next()) {
 					item = new CategoryObject();
-					
+					item.setCategory_id(rs.getInt("category_id"));
+					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
+					item.setCategory_created_date(rs.getString("category_created_date"));
+					item.setCategory_modified_date(rs.getString("category_modified_date"));
+					item.setCategory_notes(Utilities.decode(rs.getString("category_notes")));
 					items.add(item);
 				}
 			} catch (SQLException e) {

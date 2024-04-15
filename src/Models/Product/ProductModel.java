@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Databases.ConnectionPool;
 import Models.Objects.ProductObject;
+import Utilities.Utilities;
 
 public class ProductModel {
 	
@@ -43,15 +44,15 @@ public class ProductModel {
 				if(rs.next()) {
 					item = new ProductObject();
 					item.setProduct_id(rs.getInt("product_id"));
-					item.setProduct_name(rs.getString("product_name"));
+					item.setProduct_name(Utilities.decode(rs.getString("product_name")));
 					item.setProduct_quantity(rs.getInt("product_quantity"));
 					item.setProduct_price(rs.getDouble("product_price"));
 					item.setProduct_category_id(rs.getInt("product_category_id"));
 					item.setAuthor_id(rs.getInt("product_author_id"));
-					item.setProduct_details(rs.getString("product_details"));
+					item.setProduct_details(Utilities.decode(rs.getString("product_details")));
 					item.setProduct_created_date(rs.getString("product_created_date"));
 					item.setProduct_modified_date(rs.getString("product_modified_date"));
-					item.setProduct_size(rs.getString("product_size"));
+					item.setProduct_size(Utilities.decode(rs.getString("product_size")));
 					item.setProduct_promotion_price(rs.getDouble("product_promotion_price"));
 					item.setProduct_promotion(rs.getDouble("product_promotion"));
 				}
@@ -71,17 +72,18 @@ public class ProductModel {
 				while(rs.next()) {
 					item = new ProductObject();
 					item.setProduct_id(rs.getInt("product_id"));
-					item.setProduct_name(rs.getString("product_name"));
+					item.setProduct_name(Utilities.decode(rs.getString("product_name")));
 					item.setProduct_quantity(rs.getInt("product_quantity"));
 					item.setProduct_price(rs.getDouble("product_price"));
 					item.setProduct_category_id(rs.getInt("product_category_id"));
 					item.setAuthor_id(rs.getInt("product_author_id"));
-					item.setProduct_details(rs.getString("product_details"));
+					item.setProduct_details(Utilities.decode(rs.getString("product_details")));
 					item.setProduct_created_date(rs.getString("product_created_date"));
 					item.setProduct_modified_date(rs.getString("product_modified_date"));
-					item.setProduct_size(rs.getString("product_size"));
+					item.setProduct_size(Utilities.decode(rs.getString("product_size")));
 					item.setProduct_promotion_price(rs.getDouble("product_promotion_price"));
 					item.setProduct_promotion(rs.getDouble("product_promotion"));
+					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
 					items.add(item);
 				}
 			} catch (SQLException e) {

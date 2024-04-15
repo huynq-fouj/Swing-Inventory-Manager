@@ -1,10 +1,14 @@
 package Models.Category;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import Databases.ConnectionPool;
 import Models.Basic.BasicImpl;
 import Models.Objects.CategoryObject;
+import Utilities.Utilities;
+import Utilities.Utilities_date;
 
 public class CategoryImpl extends BasicImpl implements Category {
 
@@ -24,16 +28,69 @@ public class CategoryImpl extends BasicImpl implements Category {
 
 	@Override
 	public boolean addCategory(CategoryObject item) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO tblcategory(")
+		.append("category_name, category_notes, category_author_id,")
+		.append("category_created_date, category_modifined_date")
+		.append(") VALUES(?,?,?,?,?);");
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, Utilities.encode(item.getCategory_name()));
+			pre.setString(2, Utilities.encode(item.getCategory_notes()));
+			pre.setInt(3, item.getAuthor_id());
+			pre.setString(4, Utilities_date.getDate());
+			pre.setString(5, Utilities_date.getDate());
+			this.add(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean editCategory(CategoryObject item) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE tblcategory SET ")
+		.append("category_name=?, category_notes=?, category_modifined_date=? ")
+		.append("WHERE category_id=?");
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, Utilities.encode(item.getCategory_name()));
+			pre.setString(2, Utilities.encode(item.getCategory_notes()));
+			pre.setString(3, Utilities_date.getDate());
+			pre.setInt(4, item.getCategory_id());
+			this.edit(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean delCategory(CategoryObject item) {
+		String sql = "DELETE FROM tblcategory WHERE category_id=?;";
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql);
+			pre.setInt(1, item.getCategory_id());
+			return this.del(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -59,9 +116,29 @@ public class CategoryImpl extends BasicImpl implements Category {
 	}
 
 	private String createConditions(CategoryObject similar) {
-		StringBuilder cons = new StringBuilder();
+		StringBuilder conds = new StringBuilder();
+		if(similar != null) {
+			if(similar.getAuthor_id() > 0) {
+				int id = similar.getAuthor_id();
+				conds.append(" category_author_id=").append(id);
+			}
+			
+			String name = similar.getCategory_name();
+			if(name != null && !name.equalsIgnoreCase("")) {
+				if(!conds.toString().equalsIgnoreCase("")) {
+					conds.append(" AND ");
+				}
+				String key = Utilities.encode(name);
+				conds.append(" ((category_name LIKE '%"+key+"%') OR ");
+				conds.append(" (category_notes LIKE '%"+key+"%')) ");
+			}
+		}
 		
-		return cons.toString();
+		if(!conds.toString().equalsIgnoreCase("")) {
+			conds.insert(0, " WHERE ");
+		}
+		
+		return conds.toString();
 	}
 
 }

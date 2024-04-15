@@ -1,6 +1,6 @@
 package Models.Objects;
 
-public class ProductObject {
+public class ProductObject extends CategoryObject {
 	private int product_id;
 	private String product_name;
 	private int product_quantity;

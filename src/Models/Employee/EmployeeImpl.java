@@ -1,11 +1,14 @@
 package Models.Employee;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import Databases.ConnectionPool;
 import Models.Basic.BasicImpl;
 import Models.Objects.EmployeeObject;
 import Utilities.Utilities;
+import Utilities.Utilities_date;
 
 public class EmployeeImpl extends BasicImpl implements Employee {
 
@@ -25,16 +28,87 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 
 	@Override
 	public boolean addEmployee(EmployeeObject item) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO tblemployee(")
+		.append("employee_fullname, employee_phone, employee_address,")
+		.append("employee_birthday, employee_email, employee_salary,")
+		.append("employee_author_id, employee_created_date, employee_modified_date,")
+		.append("employee_debt, employee_position")
+		.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?);");
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, Utilities.encode(item.getEmployee_fullname()));
+			pre.setString(2, item.getEmployee_phone());
+			pre.setString(3, Utilities.encode(item.getEmployee_address()));
+			pre.setString(4, item.getEmployee_birthday());
+			pre.setString(5, item.getEmployee_email());
+			pre.setDouble(6, item.getEmployee_salary());
+			pre.setInt(7, item.getAuthor_id());
+			pre.setString(8, Utilities_date.getDate());
+			pre.setString(9, Utilities_date.getDate());
+			pre.setDouble(10, item.getEmployee_debt());
+			pre.setString(11, Utilities.encode(item.getEmployee_position()));
+			return this.add(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean editEmployee(EmployeeObject item) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE tblemployee SET ")
+		.append("employee_fullname=?, employee_phone=?, employee_address=?,")
+		.append("employee_birthday=?, employee_email=?, employee_salary=?,")
+		.append("employee_modified_date=?,")
+		.append("employee_debt=?, employee_position=? ")
+		.append("WHERE employee_id=?;");
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setString(1, Utilities.encode(item.getEmployee_fullname()));
+			pre.setString(2, item.getEmployee_phone());
+			pre.setString(3, Utilities.encode(item.getEmployee_address()));
+			pre.setString(4, item.getEmployee_birthday());
+			pre.setString(5, item.getEmployee_email());
+			pre.setDouble(6, item.getEmployee_salary());
+			pre.setString(7, Utilities_date.getDate());
+			pre.setDouble(8, item.getEmployee_debt());
+			pre.setString(9, Utilities.encode(item.getEmployee_position()));
+			pre.setInt(10, item.getEmployee_id());
+			return this.edit(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean delEmployee(EmployeeObject item) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("DELETE FROM tblemployee WHERE employee_id=?;");
+		try {
+			PreparedStatement pre = this.con.prepareStatement(sql.toString());
+			pre.setInt(1, item.getEmployee_id());
+			return this.del(pre);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				this.con.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
 		return false;
 	}
 
@@ -46,10 +120,11 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 
 	@Override
 	public ResultSet getEmployees(EmployeeObject similar) {
-		String sql = "SELECT * FROM tblemployee ";
-		sql += this.createConditions(similar);
-		sql += " ORDER BY employee_id DESC";
-		return this.gets(sql);
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblemployee ")
+		.append(this.createConditions(similar))
+		.append(" ORDER BY employee_id DESC");
+		return this.gets(sql.toString());
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class CreateData {
 				"Anh", "Minh Anh", "Kim Anh", "Phương Anh", "Vân Anh", "Tuấn Anh", "Văn Huy", "Việt Huy", "Quốc Huy",
 				"Quang Phúc", "Thái Phúc", "Hữu Phúc", "Đức Dũng", "Văn Dũng", "Việt Hùng", "Văn Hùng",
 				"Thái Hưng", "Ngọc Hưng", "Mai Hương", "Thu Hương", "Gia Ân", "Bảo Ân", "Minh Hiếu", "Trung Hiếu",
-				"Ngọc Quang", "Văn Quang", "Văn Đại", "Quang Đạo", "Minh Đăng", "Việt Hoàng", "Văn Hoành",
+				"Ngọc Quang", "Văn Quang", "Văn Đại", "Quang Đạo", "Minh Đăng", "Việt Hoàng", "Văn Hoàng",
 				"Quang Minh", "Thành Thuận", "Đức Thông", "Thị Thu Hường", "Thanh Quỳnh", "Như Quỳnh", "Ngọc Thúy"
 		};
 		return lastNames[(int) (Math.random() * lastNames.length)];
@@ -47,7 +47,7 @@ public class CreateData {
 	private String randomFirstName() {
 		String[] firstNames = {
 				"Nguyễn", "Trần", "Hoàng", "Lương", "Vũ", "Cao", "Khổng", "Lại", "Mai", "Ma", "Triệu",
-				"Đỗ", "Võ", "Phạm", "Trịnh"
+				"Đỗ", "Võ", "Phạm", "Trịnh", "Trương"
 		};
 		return firstNames[(int) (Math.random() * firstNames.length)];
 	}
@@ -100,7 +100,7 @@ public class CreateData {
 	}
 	
 	public void createUsers(int n) {
-		this.uc = new UserControl(cp);
+		this.uc = new UserControl(this.cp);
 		for(int i = 0; i < n; i++) {
 			UserObject item = this.createUser();
 			String result = this.uc.addUser(item) ? "Success" : "Error";
@@ -124,11 +124,13 @@ public class CreateData {
 	}
 	
 	public void createEmployees(int n, int author_id) {
+		this.ec = new EmployeeControl(this.cp);
 		for(int i = 0; i < n; i++) {
 			EmployeeObject item = this.createEmployee(author_id);
 			String result = this.ec.addEmployee(item) ? "Success" : "Error";
 			System.out.println(result + " - User: " + item.getEmployee_fullname());
 		}
+		this.ec.releaseConnection();
 	}
 	
 	private ProductObject createProduct(int author_id) {
@@ -138,11 +140,13 @@ public class CreateData {
 	}
 	
 	public void createProducts(int n, int author_id) {
+		this.pc = new ProductControl(this.cp);
 		for(int i = 0; i < n; i++) {
 			ProductObject item = this.createProduct(author_id);
 			String result = this.pc.addProduct(item) ? "Success" : "Error";
 			System.out.println(result + " - User: " + item.getProduct_name());
 		}
+		this.pc.releaseConnection();
 	}
 	
 	private CategoryObject createCategory(int author_id) {
@@ -152,11 +156,13 @@ public class CreateData {
 	}
 	
 	public void createCategories(int n, int author_id) {
+		this.cc = new CategoryControl(this.cp);
 		for(int i = 0; i < n; i++) {
 			CategoryObject item = this.createCategory(author_id);
 			String result = this.cc.addCategory(item) ? "Success" : "Error";
 			System.out.println(result + " - User: " + item.getCategory_name());
 		}
+		this.cc.releaseConnection();
 	}
 	
 }

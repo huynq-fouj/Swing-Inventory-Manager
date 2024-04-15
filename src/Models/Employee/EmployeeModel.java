@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Databases.ConnectionPool;
 import Models.Objects.EmployeeObject;
+import Utilities.Utilities;
 
 public class EmployeeModel {
 
@@ -42,6 +43,18 @@ private Employee e;
 			try {
 				if(rs.next()) {
 					item = new EmployeeObject();
+					item.setEmployee_id(rs.getInt("employee_id"));
+					item.setEmployee_fullname(Utilities.decode(rs.getString("employee_fullname")));
+					item.setEmployee_phone(rs.getString("employee_phone"));
+					item.setEmployee_address(Utilities.decode(rs.getString("employee_address")));
+					item.setEmployee_birthday(rs.getString("employee_birthday"));
+					item.setEmployee_email(rs.getString("employee_email"));
+					item.setEmployee_salary(rs.getDouble("employee_salary"));
+					item.setAuthor_id(rs.getInt("employee_author_id"));
+					item.setEmployee_created_date(rs.getString("employee_created_date"));
+					item.setEmployee_modified_date(rs.getString("employee_modified_date"));
+					item.setEmployee_debt(rs.getDouble("employee_debt"));
+					item.setEmployee_position(Utilities.decode(rs.getString("employee_position")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -58,7 +71,18 @@ private Employee e;
 			try {
 				while(rs.next()) {
 					item = new EmployeeObject();
-					
+					item.setEmployee_id(rs.getInt("employee_id"));
+					item.setEmployee_fullname(Utilities.decode(rs.getString("employee_fullname")));
+					item.setEmployee_phone(rs.getString("employee_phone"));
+					item.setEmployee_address(Utilities.decode(rs.getString("employee_address")));
+					item.setEmployee_birthday(rs.getString("employee_birthday"));
+					item.setEmployee_email(rs.getString("employee_email"));
+					item.setEmployee_salary(rs.getDouble("employee_salary"));
+					item.setAuthor_id(rs.getInt("employee_author_id"));
+					item.setEmployee_created_date(rs.getString("employee_created_date"));
+					item.setEmployee_modified_date(rs.getString("employee_modified_date"));
+					item.setEmployee_debt(rs.getDouble("employee_debt"));
+					item.setEmployee_position(Utilities.decode(rs.getString("employee_position")));
 					items.add(item);
 				}
 			} catch (SQLException e) {

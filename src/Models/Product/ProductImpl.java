@@ -99,7 +99,7 @@ public class ProductImpl extends BasicImpl implements Product {
 			pre.setDouble(8, item.getProduct_promotion_price());
 			pre.setDouble(9, item.getProduct_promotion());
 			pre.setInt(10, item.getProduct_id());
-			return this.add(pre);
+			return this.edit(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {
@@ -119,17 +119,20 @@ public class ProductImpl extends BasicImpl implements Product {
 
 	@Override
 	public ResultSet getProducts(ProductObject similar) {
-		String sql = "SELECT * FROM tblproduct ";
-		sql += this.createConditions(similar);
-		sql += " ORDER BY product_id DESC;";
-		return this.gets(sql);
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblproduct ")
+		.append("LEFT JOIN tblcategory ON tblproduct.product_category_id=tblcategory.category_id ")
+		.append(this.createConditions(similar))
+		.append(" ORDER BY product_id DESC;");
+		return this.gets(sql.toString());
 	}
 	
 	@Override
 	public ResultSet countProduct(ProductObject similar) {
-		String sql = "SELECT COUNT(*) AS total FROM tblproduct ";
-		sql += this.createConditions(similar);
-		return this.gets(sql);
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT COUNT(*) AS total FROM tblproduct ")
+		.append(this.createConditions(similar));
+		return this.gets(sql.toString());
 	}
 	
 	private String createConditions(ProductObject similar) {
