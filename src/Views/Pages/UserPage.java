@@ -1,11 +1,13 @@
 package Views.Pages;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,10 +15,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Components.Dialog;
 import Components.SideBar;
+import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
+import Components.Buttons.Button;
+import Components.Buttons.ButtonType;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Models.User.UserControl;
@@ -71,25 +77,34 @@ public class UserPage extends JFrame {
 		gbc.gridy = 0;
 		gbc.weightx = 1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridwidth = 2;
 		panel.add(this.createTitle(), gbc);
 		gbc.gridy = 1;
-		gbc.gridwidth = 1;
+		panel.add(this.SearchField(), gbc);
+		gbc.gridy = 2;
+		panel.add(this.createTable(), gbc);
 		return panel;
 	}
 	
 	private JPanel createTable() {
-		JPanel panel = this.createPanel();
+		JPanel panel = this.createPanelField();
 		this.table = new JTable();
 		this.table.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		//this.table.setBackground(Colors.White);
 		this.loadTable();
 		JScrollPane scroll = new JScrollPane(this.table);
+		scroll.setPreferredSize(new Dimension(600, 200));
+		//scroll.setBackground(Colors.White);
 		panel.add(scroll);
 		return panel;
 	}
 	
 	private void loadTable() {
-		this.table.setModel(null);
+		this.table.setModel(new DefaultTableModel(
+				null,
+				new String[] {
+					"ID", "Tên đăng nhập", "Họ tên", "Email", "Số điện thoại", "Số lần đăng nhập"
+				}
+			));
 	}
 	
 	private JPanel createTitle() {
@@ -99,6 +114,21 @@ public class UserPage extends JFrame {
 		label.setFont(new Font("Tahoma", Font.BOLD, 24));
 		label.setBorder(new EmptyBorder(0, 45, 20, 0));
 		panel.add(label);
+		return panel;
+	}
+	
+	private JPanel SearchField() {
+		JPanel panel = this.createPanelField();
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.search = new JTextField();
+		this.search.setPreferredSize(new Dimension(200, 40));
+		this.search.setBorder(new RoundedBorder(13));
+		panel.add(this.search);
+		JButton btn = new Button("Tìm kiếm", ButtonType.SECONDARY);
+		btn.addActionListener(e -> {
+			this.handleSearch();
+		});
+		panel.add(btn);
 		return panel;
 	}
 	
@@ -117,6 +147,12 @@ public class UserPage extends JFrame {
 		panel.add(label, gbc);
 		gbc.gridy = 1;
 		panel.add(sidebar, gbc);
+		return panel;
+	}
+	
+	private JPanel createPanelField() {
+		JPanel panel = this.createPanel();
+		panel.setBorder(new EmptyBorder(0, 50, 10, 0));
 		return panel;
 	}
 	
