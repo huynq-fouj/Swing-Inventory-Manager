@@ -127,8 +127,8 @@ public class UserModel {
 		return items;
 	}
 
-	public int countUser() {
-		ResultSet rs = this.u.countUser();
+	public int countUser(UserObject similar) {
+		ResultSet rs = this.u.countUser(similar);
 		if(rs != null) {
 			try {
 				if(rs.next()) {

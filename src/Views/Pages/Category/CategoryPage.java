@@ -1,4 +1,4 @@
-package Views.Pages;
+package Views.Pages.Category;
 
 import java.awt.FlowLayout;
 import java.awt.Font;

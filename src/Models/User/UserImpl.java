@@ -171,8 +171,10 @@ public class UserImpl extends BasicImpl implements User {
 	}
 	
 	@Override
-	public ResultSet countUser() {
-		String sql = "SELECT COUNT(*) AS total FROM tbluser;";
+	public ResultSet countUser(UserObject similar) {
+		String sql = "SELECT COUNT(*) AS total FROM tbluser ";
+		sql += this.createConditions(similar);
+		sql += ";";
 		return this.gets(sql);
 	}
 

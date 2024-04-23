@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import Databases.DbEngine;
-import Models.DanhMuc.DanhMuc;
 
 public class QuanlyTaiKhoanModel implements Serializable {
 	private static final long serialVersionUID = -4357895236515096269L;

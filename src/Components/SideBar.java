@@ -16,12 +16,12 @@ import Themes.Colors;
 import Themes.HoverEvent;
 import Utilities.ResourceUtil;
 import Views.Auth.AuthView;
-import Views.Pages.CategoryPage;
-import Views.Pages.EmployeePage;
 import Views.Pages.HomePage;
 import Views.Pages.ProfilePage;
-import Views.Pages.ProductPage;
-import Views.Pages.UserPage;
+import Views.Pages.Category.CategoryPage;
+import Views.Pages.Employee.EmployeePage;
+import Views.Pages.Product.ProductPage;
+import Views.Pages.User.UserPage;
 
 public class SideBar extends JPanel {
 	

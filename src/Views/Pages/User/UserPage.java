@@ -1,4 +1,4 @@
-package Views.Pages;
+package Views.Pages.User;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Components.Dialog;
 import Components.SideBar;
+import Components.TableComponent;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
@@ -82,29 +83,31 @@ public class UserPage extends JFrame {
 		panel.add(this.SearchField(), gbc);
 		gbc.gridy = 2;
 		panel.add(this.createTable(), gbc);
+		gbc.gridy = 3;
+		panel.add(this.GroupButton(), gbc);
 		return panel;
 	}
 	
 	private JPanel createTable() {
 		JPanel panel = this.createPanelField();
-		this.table = new JTable();
-		this.table.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		//this.table.setBackground(Colors.White);
-		this.loadTable();
-		JScrollPane scroll = new JScrollPane(this.table);
-		scroll.setPreferredSize(new Dimension(600, 200));
-		//scroll.setBackground(Colors.White);
+		this.table = new TableComponent();
+		this.loadTable(null);
+		JScrollPane scroll = new JScrollPane();
+		scroll.setViewportView(this.table);
+		scroll.setPreferredSize(new Dimension(620, 300));
 		panel.add(scroll);
 		return panel;
 	}
 	
-	private void loadTable() {
-		this.table.setModel(new DefaultTableModel(
-				null,
-				new String[] {
-					"ID", "Tên đăng nhập", "Họ tên", "Email", "Số điện thoại", "Số lần đăng nhập"
-				}
-			));
+	private void loadTable(UserObject similar) {
+		ConnectionPool cp = ConnectionContext.getCP();
+		UserControl uc = new UserControl(cp);
+		if(cp == null) {
+			ConnectionContext.setCP(uc.getCP());
+		}
+		DefaultTableModel dataModel = uc.getTableModel(similar);
+		uc.releaseConnection();
+		this.table.setModel(dataModel);
 	}
 	
 	private JPanel createTitle() {
@@ -121,7 +124,7 @@ public class UserPage extends JFrame {
 		JPanel panel = this.createPanelField();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.search = new JTextField();
-		this.search.setPreferredSize(new Dimension(200, 40));
+		this.search.setPreferredSize(new Dimension(200, 38));
 		this.search.setBorder(new RoundedBorder(13));
 		panel.add(this.search);
 		JButton btn = new Button("Tìm kiếm", ButtonType.SECONDARY);
@@ -129,6 +132,27 @@ public class UserPage extends JFrame {
 			this.handleSearch();
 		});
 		panel.add(btn);
+		return panel;
+	}
+	
+	private JPanel GroupButton() {
+		JPanel panel = this.createPanelField();
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JButton addBtn = new Button("Thêm mới", ButtonType.PRIMARY);
+		addBtn.addActionListener(e -> {
+			this.handleAddUser();
+		});
+		panel.add(addBtn);
+		JButton editBtn = new Button("Cập nhật", ButtonType.SUCCESS);
+		editBtn.addActionListener(e -> {
+			this.handleUpdateUser();
+		});
+		panel.add(editBtn);
+		JButton delBtn = new Button("Xóa", ButtonType.DANGER);
+		delBtn.addActionListener(e -> {
+			this.handleDeleteUser();
+		});
+		panel.add(delBtn);
 		return panel;
 	}
 	
@@ -172,16 +196,23 @@ public class UserPage extends JFrame {
 	}
 	
 	private void handleAddUser() {
-		
+		UserForm userForm = new UserForm();
+		userForm.setVisible(true);
+		this.dispose();
 	}
 	
 	private void handleUpdateUser() {
+		this.handleSelectRow();
 		if(this.idUser > 0) {
-			
+			UserForm userForm = new UserForm(this.idUser, "update");
+			userForm.setVisible(true);
+			this.dispose();
 		}
+		this.resetState();
 	}
 	
 	private void handleDeleteUser() {
+		this.handleSelectRow();
 		if(this.idUser > 0) {
 			if(Dialog.confirm(this, "Bạn chắc chắn muốn xóa người dùng: " + this.nameUser)) {
 				if(this.idUser != AuthContext.getUser().getUser_id()) {	
@@ -196,8 +227,7 @@ public class UserPage extends JFrame {
 					uc.releaseConnection();
 					if(check) {
 						Dialog.error(this, "Xóa thành công người dùng");
-						this.loadTable();
-						this.resetState();
+						this.loadTable(null);
 					}
 					else Dialog.error(this, "Xóa người dùng không thành công");
 				} else {
@@ -205,12 +235,16 @@ public class UserPage extends JFrame {
 				}
 			}
 		}
+		this.resetState();
 	}
 	
 	private void handleSearch() {
-		String searchKey = this.search.getText().trim();
-		if(searchKey != null && !searchKey.equals("")) {
-			
+		String searchKey = this.search.getText();
+		if(searchKey != null && !searchKey.trim().equals("")) {
+			String key = searchKey.trim();
+			UserObject similar = new UserObject();
+			similar.setUser_name(key);
+			this.loadTable(similar);
 		}
 	}
 	

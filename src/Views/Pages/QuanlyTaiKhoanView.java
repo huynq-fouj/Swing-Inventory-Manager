@@ -10,10 +10,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Controllers.DanhMucController.QuanlyDanhMucController;
 import Controllers.TaiKhoanController.QuanlyTaiKhoanController;
 import Models.KhoDb;
-import Models.DanhMuc.QuanlyDanhMucModel;
 import Models.TaiKhoan.QuanlyTaiKhoanModel;
 
 import javax.swing.JScrollPane;

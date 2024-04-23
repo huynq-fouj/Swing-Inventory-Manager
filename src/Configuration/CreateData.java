@@ -47,7 +47,7 @@ public class CreateData {
 	private String randomFirstName() {
 		String[] firstNames = {
 				"Nguyễn", "Trần", "Hoàng", "Lương", "Vũ", "Cao", "Khổng", "Lại", "Mai", "Ma", "Triệu",
-				"Đỗ", "Võ", "Phạm", "Trịnh", "Trương"
+				"Đỗ", "Võ", "Phạm", "Trịnh", "Trương", "Đại"
 		};
 		return firstNames[(int) (Math.random() * firstNames.length)];
 	}

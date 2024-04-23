@@ -127,7 +127,7 @@ private JPanel contentPane;
 	private JPanel UserCard(UserObject user, ConnectionPool cp) {
 		UserControl uc = new UserControl(cp);
 		if(cp == null) ConnectionContext.setCP(uc.getCP());
-		int count = uc.countUser();
+		int count = uc.countUser(null);
 		uc.releaseConnection();
 		ImageIcon img = new ImageIcon(ResourceUtil.loadStaticPath("images\\cards\\user.png"));
 		JPanel panel = this.createInfoCard("Số lượng người dùng", count + " Người dùng", img);
