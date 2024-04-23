@@ -82,10 +82,10 @@ private JPanel contentPane;
 		panel.add(this.EmployeeCard(user, cp), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		//if(user.getUser_role() >= 5) {	
+		if(user.getUser_role() >= 5) {	
 			panel.add(this.UserCard(user, cp), gbc);
 			gbc.gridy = 3;
-		//}
+		}
 		panel.add(this.LabelField("Ngày: " + Utilities_date.getDate()), gbc);
 		return panel;
 	}
@@ -95,7 +95,7 @@ private JPanel contentPane;
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel label = new JLabel("Thống kê nhanh");
 		label.setFont(new Font("Tahoma", Font.BOLD, 24));
-		label.setBorder(new EmptyBorder(0, 45, 20, 0));
+		label.setBorder(new EmptyBorder(0, 45, 15, 0));
 		panel.add(label);
 		return panel;
 	}

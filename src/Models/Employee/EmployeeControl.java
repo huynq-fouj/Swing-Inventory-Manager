@@ -2,6 +2,8 @@ package Models.Employee;
 
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
 import Databases.ConnectionPool;
 import Models.Objects.EmployeeObject;
 
@@ -43,6 +45,25 @@ private EmployeeModel em;
 	
 	public int countEmployee(EmployeeObject similar) {
 		return this.em.countEmployee(similar);
+	}
+	
+	public DefaultTableModel getTableModel(EmployeeObject similar) {
+		String columnHeaders[] = {"ID", "Họ tên", "Email", "Vị trí", "Số điện thoại", "Địa chỉ"};
+		ArrayList<EmployeeObject> items = this.getEmployees(similar);
+		Object data[][] = new Object[items.size()][columnHeaders.length];
+		items.forEach(item -> {
+			int i = items.indexOf(item);
+			data[i][0] = item.getEmployee_id();
+			data[i][1] = item.getEmployee_fullname();
+			data[i][2] = item.getEmployee_email();
+			data[i][3] = item.getEmployee_position();
+			data[i][4] = item.getEmployee_phone();
+			data[i][5] = item.getEmployee_address();
+		});
+		return new DefaultTableModel(
+				data,
+				columnHeaders
+		);
 	}
 	
 }

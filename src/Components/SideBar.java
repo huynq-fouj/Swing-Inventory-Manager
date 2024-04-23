@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import Components.Buttons.SideBarButton;
+import Shared.AuthContext;
 import Shared.PageState;
 import Themes.Colors;
 import Themes.HoverEvent;
@@ -59,12 +60,12 @@ public class SideBar extends JPanel {
 		gbc.gridy = 6;
 		this.add(this.BtnEmployee(), gbc);
 		gbc.gridy = 7;
-		//if(AuthContext.getUser().getUser_role() >= 5) {
+		if(AuthContext.getUser().getUser_role() >= 5) {
 			this.add(this.createEmptyPanel(), gbc);
 			gbc.gridy = 8;
 			this.add(this.BtnUser(), gbc);
 			gbc.gridy = 9;
-		//}
+		}
 		this.add(this.createEmptyPanel(), gbc);
 		gbc.gridy = 10;
 		this.add(this.BtnProfile(), gbc);

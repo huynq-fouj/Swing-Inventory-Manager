@@ -44,9 +44,11 @@ public class UserPage extends JFrame {
 	private JTextField search;
 	private int idUser = 0;
 	private String nameUser;
+	private UserObject similar;
 	
 	public UserPage() {
 		PageState.page = "user";
+		this.similar = new UserObject();
 		this.initUI();
 		
 	}
@@ -115,7 +117,7 @@ public class UserPage extends JFrame {
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel label = new JLabel("Danh sách người dùng");
 		label.setFont(new Font("Tahoma", Font.BOLD, 24));
-		label.setBorder(new EmptyBorder(0, 45, 20, 0));
+		label.setBorder(new EmptyBorder(0, 45, 15, 0));
 		panel.add(label);
 		return panel;
 	}
@@ -226,8 +228,8 @@ public class UserPage extends JFrame {
 					boolean check = uc.delUser(item);
 					uc.releaseConnection();
 					if(check) {
-						Dialog.error(this, "Xóa thành công người dùng");
-						this.loadTable(null);
+						Dialog.success(this, "Xóa thành công người dùng");
+						this.loadTable(this.similar);
 					}
 					else Dialog.error(this, "Xóa người dùng không thành công");
 				} else {
@@ -240,12 +242,9 @@ public class UserPage extends JFrame {
 	
 	private void handleSearch() {
 		String searchKey = this.search.getText();
-		if(searchKey != null && !searchKey.trim().equals("")) {
-			String key = searchKey.trim();
-			UserObject similar = new UserObject();
-			similar.setUser_name(key);
-			this.loadTable(similar);
-		}
+		String key = searchKey.trim();
+		this.similar.setUser_name(key);
+		this.loadTable(this.similar);
 	}
 	
 	private void resetState() {
