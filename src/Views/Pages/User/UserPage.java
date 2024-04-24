@@ -24,9 +24,11 @@ import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
 import Components.Table.TableComponent;
+import Controllers.SortUserController;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Models.User.UserControl;
+import Models.User.UserSortType;
 import Shared.AuthContext;
 import Shared.ConnectionContext;
 import Shared.PageState;
@@ -45,10 +47,14 @@ public class UserPage extends JFrame {
 	private int idUser = 0;
 	private String nameUser;
 	private UserObject similar;
+	private UserSortType sortType;
+	private boolean sorted;
 	
 	public UserPage() {
 		PageState.page = "user";
 		this.similar = new UserObject();
+		this.sortType = UserSortType.ID_DESC;
+		this.sorted = false;
 		this.initUI();
 		
 	}
@@ -93,7 +99,9 @@ public class UserPage extends JFrame {
 	private JPanel createTable() {
 		JPanel panel = this.createPanelField();
 		this.table = new TableComponent();
-		this.loadTable(null);
+		this.loadTable(null, UserSortType.ID_DESC);
+		SortUserController suc = new SortUserController(this);
+		this.table.getTableHeader().addMouseListener(suc);
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(this.table);
 		scroll.setPreferredSize(new Dimension(620, 300));
@@ -101,15 +109,19 @@ public class UserPage extends JFrame {
 		return panel;
 	}
 	
-	private void loadTable(UserObject similar) {
+	private void loadTable(UserObject similar, UserSortType type) {
 		ConnectionPool cp = ConnectionContext.getCP();
 		UserControl uc = new UserControl(cp);
 		if(cp == null) {
 			ConnectionContext.setCP(uc.getCP());
 		}
-		DefaultTableModel dataModel = uc.getTableModel(similar);
+		DefaultTableModel dataModel = uc.getTableModel(similar, type);
 		uc.releaseConnection();
 		this.table.setModel(dataModel);
+	}
+	
+	public void loadTable() {
+		this.loadTable(this.similar, this.sortType);
 	}
 	
 	private JPanel createTitle() {
@@ -229,7 +241,7 @@ public class UserPage extends JFrame {
 					uc.releaseConnection();
 					if(check) {
 						Dialog.success(this, "Xóa thành công người dùng");
-						this.loadTable(this.similar);
+						this.loadTable();
 					}
 					else Dialog.error(this, "Xóa người dùng không thành công");
 				} else {
@@ -244,12 +256,28 @@ public class UserPage extends JFrame {
 		String searchKey = this.search.getText();
 		String key = searchKey.trim();
 		this.similar.setUser_name(key);
-		this.loadTable(this.similar);
+		this.loadTable();
 	}
 	
 	private void resetState() {
 		this.idUser = 0;
 		this.nameUser = "";
+	}
+	
+	public JTable getTable() {
+		return this.table;
+	}
+	
+	public boolean isSorted() {
+		return this.sorted;
+	}
+	
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
+	}
+	
+	public void setUserSortType(UserSortType type) {
+		this.sortType = type;
 	}
 
 }

@@ -159,15 +159,55 @@ public class UserImpl extends BasicImpl implements User {
 			conds.insert(0, " WHERE ");
 		}
 		
+		conds.append(" ");
+		
 		return conds.toString();
 	}
 
 	@Override
-	public ResultSet getUsers(UserObject similar) {
-		String sql = "SELECT * FROM tbluser ";
-		sql += this.createConditions(similar);
-		sql += "ORDER BY user_id DESC;";
-		return this.gets(sql);
+	public ResultSet getUsers(UserObject similar, UserSortType type) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tbluser ")
+		.append(this.createConditions(similar));
+		switch(type) {
+		case ID_ASC:
+			sql.append("ORDER BY user_id asc");
+			break;
+		case FULLNAME_ASC:
+			sql.append("ORDER BY user_fullname asc");
+			break;
+		case NAME_ASC:
+			sql.append("ORDER BY user_name asc");
+			break;
+		case EMAIL_ASC:
+			sql.append("ORDER BY user_email asc");
+			break;
+		case PHONE_ASC:
+			sql.append("ORDER BY user_phone asc");
+			break;
+		case LOGINED_ASC:
+			sql.append("ORDER BY user_logined asc");
+			break;
+		case FULLNAME_DESC:
+			sql.append("ORDER BY user_fullname desc");
+			break;
+		case NAME_DESC:
+			sql.append("ORDER BY user_name desc");
+			break;
+		case EMAIL_DESC:
+			sql.append("ORDER BY user_email desc");
+			break;
+		case PHONE_DESC:
+			sql.append("ORDER BY user_phone desc");
+			break;
+		case LOGINED_DESC:
+			sql.append("ORDER BY user_logined desc");
+			break;
+		default:
+			sql.append("ORDER BY user_id desc");
+		}
+		sql.append(";");
+		return this.gets(sql.toString());
 	}
 	
 	@Override

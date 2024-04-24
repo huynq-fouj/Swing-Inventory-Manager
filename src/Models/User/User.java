@@ -13,7 +13,7 @@ public interface User extends ShareControl {
 	public boolean delUser(UserObject item);
 	public ResultSet getUser(int id);
 	public ResultSet getUser(String username, String userpass);
-	public ResultSet getUsers(UserObject similar);
+	public ResultSet getUsers(UserObject similar, UserSortType type);
 	public ResultSet countUser(UserObject similar);
 	
 }

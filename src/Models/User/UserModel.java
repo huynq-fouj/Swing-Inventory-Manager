@@ -99,10 +99,10 @@ public class UserModel {
 		return item;
 	}
 	
-	public ArrayList<UserObject> getUserObjects(UserObject similar) {
+	public ArrayList<UserObject> getUserObjects(UserObject similar, UserSortType type) {
 		ArrayList<UserObject> items = new ArrayList<>();
 		UserObject item = null;
-		ResultSet rs = this.u.getUsers(similar);
+		ResultSet rs = this.u.getUsers(similar, type);
 		if (rs != null) {
 			try {
 				while (rs.next()) {

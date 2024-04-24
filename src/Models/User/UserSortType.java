@@ -1,0 +1,16 @@
+package Models.User;
+
+public enum UserSortType {
+	ID_ASC,
+	ID_DESC,
+	FULLNAME_ASC,
+	FULLNAME_DESC,
+	NAME_ASC,
+	NAME_DESC,
+	EMAIL_ASC,
+	EMAIL_DESC,
+	PHONE_ASC,
+	PHONE_DESC,
+	LOGINED_ASC,
+	LOGINED_DESC,
+}

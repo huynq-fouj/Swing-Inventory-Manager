@@ -51,17 +51,17 @@ public class UserControl {
 		return this.um.getUserObject(username, password);
 	}
 	
-	public ArrayList<UserObject> getUserObjects(UserObject similar) {
-		return this.um.getUserObjects(similar);
+	public ArrayList<UserObject> getUserObjects(UserObject similar, UserSortType type) {
+		return this.um.getUserObjects(similar, type);
 	}
 
 	public int countUser(UserObject similar) {
 		return this.um.countUser(similar);
 	}
 	
-	public DefaultTableModel getTableModel(UserObject similar) {
+	public DefaultTableModel getTableModel(UserObject similar, UserSortType type) {
 		String columnHeaders[] = {"ID", "Tên đăng nhập", "Họ tên", "Email", "Số điện thoại", "Số lần đăng nhập"};
-		ArrayList<UserObject> items = this.getUserObjects(similar);
+		ArrayList<UserObject> items = this.getUserObjects(similar, type);
 		Object data[][] = new Object[items.size()][columnHeaders.length];
 		items.forEach(item -> {
 			int i = items.indexOf(item);
