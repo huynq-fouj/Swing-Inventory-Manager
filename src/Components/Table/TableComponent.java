@@ -1,4 +1,4 @@
-package Components;
+package Components.Table;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,6 +30,7 @@ public class TableComponent extends JTable {
 		this.setShowVerticalLines(false);
 		this.setIntercellSpacing(new Dimension(0, 0));
 		this.setRowMargin(0);
+		this.setDefaultRenderer(Object.class, new MyRenderer());
 	}
 
 }

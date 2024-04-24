@@ -19,11 +19,11 @@ import javax.swing.table.DefaultTableModel;
 
 import Components.Dialog;
 import Components.SideBar;
-import Components.TableComponent;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
+import Components.Table.TableComponent;
 import Databases.ConnectionPool;
 import Models.Employee.EmployeeControl;
 import Models.Objects.EmployeeObject;
@@ -203,9 +203,9 @@ public class EmployeePage extends JFrame {
 	private void handleUpdateEmployee() {
 		this.handleSelectRow();
 		if(this.employeeId > 0) {
-//			EmployeeForm employeeForm = new EmployeeForm(this.employeeId, "update");
-//			employeeForm.setVisible(true);
-//			this.dispose();
+			EmployeeForm employeeForm = new EmployeeForm(this.employeeId, "update");
+			employeeForm.setVisible(true);
+			this.dispose();
 		}
 		this.resetState();
 	}

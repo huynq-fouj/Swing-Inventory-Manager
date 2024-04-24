@@ -19,11 +19,11 @@ import javax.swing.table.DefaultTableModel;
 
 import Components.Dialog;
 import Components.SideBar;
-import Components.TableComponent;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
+import Components.Table.TableComponent;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Models.User.UserControl;
