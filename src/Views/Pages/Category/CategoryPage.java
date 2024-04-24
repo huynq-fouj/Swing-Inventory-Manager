@@ -24,8 +24,10 @@ import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
 import Components.Table.TableComponent;
+import Controllers.SortCategoryController;
 import Databases.ConnectionPool;
 import Models.Category.CategoryControl;
+import Models.Category.CategorySortType;
 import Models.Objects.CategoryObject;
 import Shared.AuthContext;
 import Shared.ConnectionContext;
@@ -42,16 +44,19 @@ public class CategoryPage extends JFrame {
 	private int categoryId = 0;
 	private String categoryName;
 	private CategoryObject similar;
+	private CategorySortType type;
+	private boolean sorted;
 	
 	public CategoryPage() {
 		PageState.page = "category";
 		this.similar = new CategoryObject();
 		this.similar.setAuthor_id(AuthContext.getUser().getUser_id());
+		this.type = CategorySortType.ID_DESC;
 		this.initUI();
 		
 	}
 	
-	public void initUI() {
+	private void initUI() {
 		this.setTitle("Danh mục");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 920, 600);
@@ -61,7 +66,7 @@ public class CategoryPage extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public JPanel createContentPane() {
+	private JPanel createContentPane() {
 		JPanel panel = this.createPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panel.add(this.createSidebar());
@@ -70,7 +75,7 @@ public class CategoryPage extends JFrame {
 		return panel;
 	}
 	
-	public JPanel mainView() {
+	private JPanel mainView() {
 		JPanel panel = this.createPanel();
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -91,7 +96,9 @@ public class CategoryPage extends JFrame {
 	private JPanel createTable() {
 		JPanel panel = this.createPanelField();
 		this.table = new TableComponent();
-		this.loadTable(this.similar);
+		this.loadTable();
+		SortCategoryController scc = new SortCategoryController(this);
+		this.table.getTableHeader().addMouseListener(scc);
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(this.table);
 		scroll.setPreferredSize(new Dimension(620, 300));
@@ -99,18 +106,22 @@ public class CategoryPage extends JFrame {
 		return panel;
 	}
 	
-	private void loadTable(CategoryObject similar) {
+	private void loadTable(CategoryObject similar, CategorySortType type) {
 		ConnectionPool cp = ConnectionContext.getCP();
 		CategoryControl cc = new CategoryControl(cp);
 		if(cp == null) {
 			ConnectionContext.setCP(cc.getCP());
 		}
-		DefaultTableModel dataModel = cc.getTableModel(similar);
+		DefaultTableModel dataModel = cc.getTableModel(similar, type);
 		cc.releaseConnection();
 		this.table.setModel(dataModel);
 	}
 	
-	public JPanel createTitle() {
+	public void loadTable() {
+		this.loadTable(this.similar, this.type);
+	}
+	
+	private JPanel createTitle() {
 		JPanel panel = this.createPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel label = new JLabel("Danh sách danh mục");
@@ -180,7 +191,7 @@ public class CategoryPage extends JFrame {
 		return panel;
 	}
 	
-	public JPanel createPanel() {
+	private JPanel createPanel() {
 		JPanel panel = new JPanel();
 		panel.setForeground(Colors.Black);
 		panel.setBackground(Colors.White);
@@ -226,7 +237,7 @@ public class CategoryPage extends JFrame {
 				cc.releaseConnection();
 				if(check) {
 					Dialog.success(this, "Xóa thể loại thành công");
-					this.loadTable(this.similar);
+					this.loadTable();
 				}
 				else Dialog.error(this, "Xóa thể loại không thành công");
 			}
@@ -238,12 +249,28 @@ public class CategoryPage extends JFrame {
 		String searchKey = this.search.getText();
 		String key = searchKey.trim();
 		this.similar.setCategory_name(key);
-		this.loadTable(this.similar);
+		this.loadTable();
 	}
 	
 	private void resetState() {
 		this.categoryId = 0;
 		this.categoryName = "";
+	}
+	
+	public JTable getTable() {
+		return this.table;
+	}
+	
+	public boolean isSorted() {
+		return this.sorted;
+	}
+	
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
+	}
+	
+	public void setCategorySortType(CategorySortType type) {
+		this.type = type;
 	}
 	
 }

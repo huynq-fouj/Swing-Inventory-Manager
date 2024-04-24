@@ -101,11 +101,31 @@ public class CategoryImpl extends BasicImpl implements Category {
 	}
 
 	@Override
-	public ResultSet getCategories(CategoryObject similar) {
-		String sql = "SELECT * FROM tblcategory ";
-		sql += this.createConditions(similar);
-		sql += " ORDER BY Category_id DESC";
-		return this.gets(sql);
+	public ResultSet getCategories(CategoryObject similar, CategorySortType type) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM tblcategory ")
+		.append(this.createConditions(similar));
+		switch(type) {
+		case ID_ASC:
+			sql.append("ORDER BY category_id ASC");
+			break;
+		case NAME_ASC:
+			sql.append("ORDER BY category_name ASC");
+			break;
+		case NOTES_ASC:
+			sql.append("ORDER BY category_notes ASC");
+			break;
+		case NAME_DESC:
+			sql.append("ORDER BY category_name DESC");
+			break;
+		case NOTES_DESC:
+			sql.append("ORDER BY category_notes DESC");
+			break;
+		default:
+			sql.append("ORDER BY category_id DESC");
+		}
+		sql.append(";");
+		return this.gets(sql.toString());
 	}
 	
 	@Override
@@ -137,6 +157,8 @@ public class CategoryImpl extends BasicImpl implements Category {
 		if(!conds.toString().equalsIgnoreCase("")) {
 			conds.insert(0, " WHERE ");
 		}
+		
+		conds.append(" ");
 		
 		return conds.toString();
 	}

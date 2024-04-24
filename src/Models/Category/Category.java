@@ -12,6 +12,6 @@ public interface Category extends ShareControl {
 	public boolean delCategory(CategoryObject item);
 	
 	public ResultSet getCategory(int id);
-	public ResultSet getCategories(CategoryObject similar);	
+	public ResultSet getCategories(CategoryObject similar, CategorySortType type);	
 	public ResultSet countCategory(CategoryObject similar);
 }

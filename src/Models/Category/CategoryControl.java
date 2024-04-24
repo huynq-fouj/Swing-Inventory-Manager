@@ -39,17 +39,17 @@ private CategoryModel cm;
 		return this.cm.getCategory(id);
 	}
 	
-	public ArrayList<CategoryObject> getCategories(CategoryObject similar) {
-		return this.cm.getCategories(similar);
+	public ArrayList<CategoryObject> getCategories(CategoryObject similar, CategorySortType type) {
+		return this.cm.getCategories(similar, type);
 	}
 	
 	public int countCategory(CategoryObject similar) {
 		return this.cm.countCategory(similar);
 	}
 	
-	public DefaultTableModel getTableModel(CategoryObject similar) {
+	public DefaultTableModel getTableModel(CategoryObject similar, CategorySortType type) {
 		String columnHeaders[] = {"ID", "Tên danh mục", "Ghi chú"};
-		ArrayList<CategoryObject> items = this.getCategories(similar);
+		ArrayList<CategoryObject> items = this.getCategories(similar, type);
 		Object data[][] = new Object[items.size()][columnHeaders.length];
 		items.forEach(item -> {
 			int i = items.indexOf(item);

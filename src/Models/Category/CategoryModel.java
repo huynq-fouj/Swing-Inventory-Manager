@@ -56,10 +56,10 @@ private Category c;
 		return item;
 	}
 	
-	public ArrayList<CategoryObject> getCategories(CategoryObject similar) {
+	public ArrayList<CategoryObject> getCategories(CategoryObject similar, CategorySortType type) {
 		ArrayList<CategoryObject> items = new ArrayList<>();
 		CategoryObject item = null;
-		ResultSet rs = this.c.getCategories(similar);
+		ResultSet rs = this.c.getCategories(similar, type);
 		if(rs != null) {
 			try {
 				while(rs.next()) {
