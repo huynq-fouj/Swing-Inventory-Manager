@@ -12,6 +12,6 @@ public interface Product extends ShareControl {
 	public boolean editProduct(ProductObject product);
 	
 	public ResultSet getProduct(int id);
-	public ResultSet getProducts(ProductObject similar);
+	public ResultSet getProducts(ProductObject similar, ProductSortType type);
 	public ResultSet countProduct(ProductObject similar);
 }

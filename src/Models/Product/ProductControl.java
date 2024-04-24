@@ -39,17 +39,17 @@ public class ProductControl {
 		return this.pm.getProduct(id);
 	}
 	
-	public ArrayList<ProductObject> getProducts(ProductObject similar) {
-		return this.pm.getProducts(similar);
+	public ArrayList<ProductObject> getProducts(ProductObject similar, ProductSortType type) {
+		return this.pm.getProducts(similar, type);
 	}
 	
 	public int countProduct(ProductObject similar) {
 		return this.pm.countProduct(similar);
 	}
 	
-	public DefaultTableModel getTableModel(ProductObject similar) {
+	public DefaultTableModel getTableModel(ProductObject similar, ProductSortType type) {
 		String columnHeaders[] = {"ID", "Tên sản phẩm", "Số lượng", "Đơn giá", "Danh mục"};
-		ArrayList<ProductObject> items = this.getProducts(similar);
+		ArrayList<ProductObject> items = this.getProducts(similar, type);
 		Object data[][] = new Object[items.size()][columnHeaders.length];
 		items.forEach(item -> {
 			int i = items.indexOf(item);

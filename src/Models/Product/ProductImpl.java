@@ -118,12 +118,43 @@ public class ProductImpl extends BasicImpl implements Product {
 	}
 
 	@Override
-	public ResultSet getProducts(ProductObject similar) {
+	public ResultSet getProducts(ProductObject similar, ProductSortType type) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblproduct ")
 		.append("LEFT JOIN tblcategory ON tblproduct.product_category_id=tblcategory.category_id ")
-		.append(this.createConditions(similar))
-		.append(" ORDER BY product_id DESC;");
+		.append(this.createConditions(similar));
+		switch(type) {
+		case ID_ASC:
+			sql.append("ORDER BY product_id ASC");
+			break;
+		case NAME_ASC:
+			sql.append("ORDER BY product_name ASC");
+			break;
+		case QUANTITY_ASC:
+			sql.append("ORDER BY product_quantity ASC");
+			break;
+		case PRICE_ASC:
+			sql.append("ORDER BY product_price ASC");
+			break;
+		case CATEGORY_NAME_ASC:
+			sql.append("ORDER BY category_name ASC");
+			break;
+		case NAME_DESC:
+			sql.append("ORDER BY product_name DESC");
+			break;
+		case QUANTITY_DESC:
+			sql.append("ORDER BY product_quantity DESC");
+			break;
+		case PRICE_DESC:
+			sql.append("ORDER BY product_price DESC");
+			break;
+		case CATEGORY_NAME_DESC:
+			sql.append("ORDER BY category_name DESC");
+			break;
+		default:
+			sql.append("ORDER BY product_id DESC");
+		}
+		sql.append(";");
 		return this.gets(sql.toString());
 	}
 	
@@ -158,6 +189,9 @@ public class ProductImpl extends BasicImpl implements Product {
 		if(!conds.toString().equalsIgnoreCase("")) {
 			conds.insert(0, " WHERE ");
 		}
+		
+		conds.append(" ");
+		
 		return conds.toString();
 	}
 

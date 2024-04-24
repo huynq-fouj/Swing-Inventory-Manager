@@ -1,0 +1,14 @@
+package Models.Product;
+
+public enum ProductSortType {
+	ID_ASC,
+	ID_DESC,
+	NAME_ASC,
+	NAME_DESC,
+	QUANTITY_ASC,
+	QUANTITY_DESC,
+	PRICE_ASC,
+	PRICE_DESC,
+	CATEGORY_NAME_ASC,
+	CATEGORY_NAME_DESC,
+}

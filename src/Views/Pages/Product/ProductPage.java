@@ -24,9 +24,11 @@ import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
 import Components.Table.TableComponent;
+import Controllers.SortProductController;
 import Databases.ConnectionPool;
 import Models.Objects.ProductObject;
 import Models.Product.ProductControl;
+import Models.Product.ProductSortType;
 import Shared.AuthContext;
 import Shared.ConnectionContext;
 import Shared.PageState;
@@ -42,11 +44,14 @@ public class ProductPage extends JFrame {
 	private int productId = 0;
 	private String productName;
 	private ProductObject similar;
+	private ProductSortType type;
+	private boolean sorted;
 	
 	public ProductPage() {
 		PageState.page = "product";
 		this.similar = new ProductObject();
 		this.similar.setAuthor_id(AuthContext.getUser().getUser_id());
+		this.type = ProductSortType.ID_DESC;
 		this.initUI();
 		
 	}
@@ -116,7 +121,9 @@ public class ProductPage extends JFrame {
 	private JPanel createTable() {
 		JPanel panel = this.createPanelField();
 		this.table = new TableComponent();
-		this.loadTable(this.similar);
+		this.loadTable();
+		SortProductController spc = new SortProductController(this);
+		this.table.getTableHeader().addMouseListener(spc);
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(this.table);
 		scroll.setPreferredSize(new Dimension(620, 300));
@@ -124,15 +131,19 @@ public class ProductPage extends JFrame {
 		return panel;
 	}
 	
-	private void loadTable(ProductObject similar) {
+	private void loadTable(ProductObject similar, ProductSortType type) {
 		ConnectionPool cp = ConnectionContext.getCP();
 		ProductControl pc = new ProductControl(cp);
 		if(cp == null) {
 			ConnectionContext.setCP(pc.getCP());
 		}
-		DefaultTableModel dataModel = pc.getTableModel(similar);
+		DefaultTableModel dataModel = pc.getTableModel(similar, type);
 		pc.releaseConnection();
 		this.table.setModel(dataModel);
+	}
+	
+	public void loadTable() {
+		this.loadTable(this.similar, this.type);
 	}
 	
 	private JPanel GroupButton() {
@@ -156,7 +167,7 @@ public class ProductPage extends JFrame {
 		return panel;
 	}
 	
-	public JPanel createSidebar() {
+	private JPanel createSidebar() {
 		SideBar sidebar = new SideBar(this);
 		JPanel panel = this.createPanel();
 		panel.setLayout(new GridBagLayout());
@@ -180,7 +191,7 @@ public class ProductPage extends JFrame {
 		return panel;
 	}
 	
-	public JPanel createPanel() {
+	private JPanel createPanel() {
 		JPanel panel = new JPanel();
 		panel.setForeground(Colors.Black);
 		panel.setBackground(Colors.White);
@@ -226,7 +237,7 @@ public class ProductPage extends JFrame {
 				pc.releaseConnection();
 				if(check) {
 					Dialog.success(this, "Xóa sản phẩm thành công");
-					this.loadTable(this.similar);
+					this.loadTable();
 				}
 				else Dialog.error(this, "Xóa sản phẩm không thành công");
 			}
@@ -238,12 +249,28 @@ public class ProductPage extends JFrame {
 		String searchKey = this.search.getText();
 		String key = searchKey.trim();
 		this.similar.setProduct_name(key);
-		this.loadTable(this.similar);
+		this.loadTable();
 	}
 	
 	private void resetState() {
 		this.productId = 0;
 		this.productName = "";
+	}
+	
+	public JTable getTable() {
+		return this.table;
+	}
+	
+	public boolean isSorted() {
+		return this.sorted;
+	}
+	
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
+	}
+	
+	public void setProductSortType(ProductSortType type) {
+		this.type = type;
 	}
 	
 }
