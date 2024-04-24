@@ -39,17 +39,17 @@ private EmployeeModel em;
 		return this.em.getEmployee(id);
 	}
 	
-	public ArrayList<EmployeeObject> getEmployees(EmployeeObject similar) {
-		return this.em.getEmployees(similar);
+	public ArrayList<EmployeeObject> getEmployees(EmployeeObject similar, EmployeeSortType type) {
+		return this.em.getEmployees(similar, type);
 	}
 	
 	public int countEmployee(EmployeeObject similar) {
 		return this.em.countEmployee(similar);
 	}
 	
-	public DefaultTableModel getTableModel(EmployeeObject similar) {
+	public DefaultTableModel getTableModel(EmployeeObject similar, EmployeeSortType type) {
 		String columnHeaders[] = {"ID", "Họ tên", "Email", "Vị trí", "Số điện thoại", "Địa chỉ"};
-		ArrayList<EmployeeObject> items = this.getEmployees(similar);
+		ArrayList<EmployeeObject> items = this.getEmployees(similar, type);
 		Object data[][] = new Object[items.size()][columnHeaders.length];
 		items.forEach(item -> {
 			int i = items.indexOf(item);

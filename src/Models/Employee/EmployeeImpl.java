@@ -119,11 +119,48 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 	}
 
 	@Override
-	public ResultSet getEmployees(EmployeeObject similar) {
+	public ResultSet getEmployees(EmployeeObject similar, EmployeeSortType type) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM tblemployee ")
-		.append(this.createConditions(similar))
-		.append(" ORDER BY employee_id DESC");
+		.append(this.createConditions(similar));
+		switch(type) {
+		case ID_ASC:
+			sql.append("ORDER BY employee_id ASC");
+			break;
+		case FULLNAME_ASC:
+			sql.append("ORDER BY employee_fullname ASC");
+			break;
+		case EMAIL_ASC:
+			sql.append("ORDER BY employee_email ASC");
+			break;
+		case POSITION_ASC:
+			sql.append("ORDER BY employee_position ASC");
+			break;
+		case PHONE_ASC:
+			sql.append("ORDER BY employee_phone ASC");
+			break;
+		case ADDRESS_ASC:
+			sql.append("ORDER BY employee_address ASC");
+			break;
+		case FULLNAME_DESC:
+			sql.append("ORDER BY employee_fullname DESC");
+			break;
+		case EMAIL_DESC:
+			sql.append("ORDER BY employee_email DESC");
+			break;
+		case POSITION_DESC:
+			sql.append("ORDER BY employee_position DESC");
+			break;
+		case PHONE_DESC:
+			sql.append("ORDER BY employee_phone DESC");
+			break;
+		case ADDRESS_DESC:
+			sql.append("ORDER BY employee_address DESC");
+			break;
+		default:
+			sql.append("ORDER BY employee_id DESC");
+		}
+		sql.append(";");
 		return this.gets(sql.toString());
 	}
 	
@@ -157,6 +194,8 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 		if(!conds.toString().equalsIgnoreCase("")) {
 			conds.insert(0, " WHERE ");
 		}
+		
+		conds.append(" ");
 		
 		return conds.toString();
 	}

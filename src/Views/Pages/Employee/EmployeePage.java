@@ -24,8 +24,10 @@ import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
 import Components.Table.TableComponent;
+import Controllers.SortEmployeeController;
 import Databases.ConnectionPool;
 import Models.Employee.EmployeeControl;
+import Models.Employee.EmployeeSortType;
 import Models.Objects.EmployeeObject;
 import Shared.AuthContext;
 import Shared.ConnectionContext;
@@ -42,11 +44,15 @@ public class EmployeePage extends JFrame {
 	private String employeeName;
 	private EmployeeObject similar;
 	private JTable table;
+	private boolean sorted;
+	private EmployeeSortType type;
 	
 	public EmployeePage() {
 		PageState.page = "employee";
 		this.similar = new EmployeeObject();
 		this.similar.setAuthor_id(AuthContext.getUser().getUser_id());
+		this.type = EmployeeSortType.ID_DESC;
+		this.sorted = false;
 		this.initUI();
 	}
 	
@@ -90,7 +96,9 @@ public class EmployeePage extends JFrame {
 	private JPanel createTable() {
 		JPanel panel = this.createPanelField();
 		this.table = new TableComponent();
-		this.loadTable(this.similar);
+		this.loadTable();
+		SortEmployeeController sec = new SortEmployeeController(this);
+		this.table.getTableHeader().addMouseListener(sec);
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(this.table);
 		scroll.setPreferredSize(new Dimension(620, 300));
@@ -98,15 +106,19 @@ public class EmployeePage extends JFrame {
 		return panel;
 	}
 	
-	private void loadTable(EmployeeObject similar) {
+	private void loadTable(EmployeeObject similar, EmployeeSortType type) {
 		ConnectionPool cp = ConnectionContext.getCP();
 		EmployeeControl ec = new EmployeeControl(cp);
 		if(cp == null) {
 			ConnectionContext.setCP(ec.getCP());
 		}
-		DefaultTableModel dataModel = ec.getTableModel(similar);
+		DefaultTableModel dataModel = ec.getTableModel(similar, type);
 		ec.releaseConnection();
 		this.table.setModel(dataModel);
+	}
+	
+	public void loadTable() {
+		this.loadTable(this.similar, this.type);
 	}
 	
 	private JPanel SearchField() {
@@ -225,7 +237,7 @@ public class EmployeePage extends JFrame {
 				ec.releaseConnection();
 				if(check) {
 					Dialog.success(this, "Xóa thành công nhân viên");
-					this.loadTable(this.similar);
+					this.loadTable();
 				}
 				else Dialog.error(this, "Xóa nhân viên không thành công");
 			}
@@ -237,12 +249,28 @@ public class EmployeePage extends JFrame {
 		String searchKey = this.search.getText();
 		String key = searchKey.trim();
 		similar.setEmployee_fullname(key);
-		this.loadTable(similar);
+		this.loadTable();
 	}
 	
 	private void resetState() {
 		this.employeeId = 0;
 		this.employeeName = "";
+	}
+	
+	public JTable getTable() {
+		return this.table;
+	}
+	
+	public boolean isSorted() {
+		return this.sorted;
+	}
+	
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
+	}
+	
+	public void setEmployeeSortType(EmployeeSortType type) {
+		this.type = type;
 	}
 	
 }

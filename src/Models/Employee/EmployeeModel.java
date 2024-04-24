@@ -63,10 +63,10 @@ private Employee e;
 		return item;
 	}
 	
-	public ArrayList<EmployeeObject> getEmployees(EmployeeObject similar) {
+	public ArrayList<EmployeeObject> getEmployees(EmployeeObject similar, EmployeeSortType type) {
 		ArrayList<EmployeeObject> items = new ArrayList<>();
 		EmployeeObject item = null;
-		ResultSet rs = this.e.getEmployees(similar);
+		ResultSet rs = this.e.getEmployees(similar, type);
 		if(rs != null) {
 			try {
 				while(rs.next()) {

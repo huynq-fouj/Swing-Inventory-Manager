@@ -12,6 +12,6 @@ public interface Employee extends ShareControl {
 	public boolean delEmployee(EmployeeObject item);
 	
 	public ResultSet getEmployee(int id);
-	public ResultSet getEmployees(EmployeeObject similar);	
+	public ResultSet getEmployees(EmployeeObject similar, EmployeeSortType type);	
 	public ResultSet countEmployee(EmployeeObject similar);
 }
