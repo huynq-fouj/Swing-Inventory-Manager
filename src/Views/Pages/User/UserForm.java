@@ -106,7 +106,9 @@ public class UserForm extends JFrame {
 		gbc.gridy = 0;
 		gbc.weightx = 1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = 3;
 		panel.add(this.createTitle(), gbc);
+		gbc.gridwidth = 1;
 		gbc.gridy = 1;
 		if(this.isUpdate()) {
 			panel.add(this.UserIdField(), gbc);

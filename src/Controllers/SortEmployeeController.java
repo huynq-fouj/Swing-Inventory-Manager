@@ -42,7 +42,7 @@ public class SortEmployeeController implements MouseListener {
 				this.employeePage.loadTable();
 			}
 		}
-		if(column == 2) {
+		if(column == 3) {
 			if(this.employeePage.isSorted()) {
 				this.employeePage.setEmployeeSortType(EmployeeSortType.EMAIL_DESC);
 				this.employeePage.setSorted(false);
@@ -53,13 +53,13 @@ public class SortEmployeeController implements MouseListener {
 				this.employeePage.loadTable();
 			}
 		}
-		if(column == 3) {
+		if(column == 2) {
 			if(this.employeePage.isSorted()) {
-				this.employeePage.setEmployeeSortType(EmployeeSortType.POSITION_DESC);
+				this.employeePage.setEmployeeSortType(EmployeeSortType.SALARY_DESC);
 				this.employeePage.setSorted(false);
 				this.employeePage.loadTable();
 			} else {
-				this.employeePage.setEmployeeSortType(EmployeeSortType.POSITION_ASC);
+				this.employeePage.setEmployeeSortType(EmployeeSortType.SALARY_ASC);
 				this.employeePage.setSorted(true);
 				this.employeePage.loadTable();
 			}

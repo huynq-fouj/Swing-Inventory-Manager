@@ -33,8 +33,8 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 		.append("employee_fullname, employee_phone, employee_address,")
 		.append("employee_birthday, employee_email, employee_salary,")
 		.append("employee_author_id, employee_created_date, employee_modified_date,")
-		.append("employee_debt, employee_position")
-		.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?);");
+		.append("employee_debt, employee_position, employee_notes")
+		.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
 			pre.setString(1, Utilities.encode(item.getEmployee_fullname()));
@@ -48,6 +48,7 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 			pre.setString(9, Utilities_date.getDate());
 			pre.setDouble(10, item.getEmployee_debt());
 			pre.setString(11, Utilities.encode(item.getEmployee_position()));
+			pre.setString(12, Utilities.encode(item.getEmployee_notes()));
 			return this.add(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,7 +68,7 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 		.append("employee_fullname=?, employee_phone=?, employee_address=?,")
 		.append("employee_birthday=?, employee_email=?, employee_salary=?,")
 		.append("employee_modified_date=?,")
-		.append("employee_debt=?, employee_position=? ")
+		.append("employee_debt=?, employee_position=?, employee_notes=? ")
 		.append("WHERE employee_id=?;");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -80,7 +81,8 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 			pre.setString(7, Utilities_date.getDate());
 			pre.setDouble(8, item.getEmployee_debt());
 			pre.setString(9, Utilities.encode(item.getEmployee_position()));
-			pre.setInt(10, item.getEmployee_id());
+			pre.setString(10, Utilities.encode(item.getEmployee_notes()));
+			pre.setInt(11, item.getEmployee_id());
 			return this.edit(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,6 +158,12 @@ public class EmployeeImpl extends BasicImpl implements Employee {
 			break;
 		case ADDRESS_DESC:
 			sql.append("ORDER BY employee_address DESC");
+			break;
+		case SALARY_DESC:
+			sql.append("ORDER BY employee_salary DESC");
+			break;
+		case SALARY_ASC:
+			sql.append("ORDER BY employee_salary ASC");
 			break;
 		default:
 			sql.append("ORDER BY employee_id DESC");

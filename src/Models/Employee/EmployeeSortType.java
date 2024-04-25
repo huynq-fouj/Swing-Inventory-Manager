@@ -13,4 +13,6 @@ public enum EmployeeSortType {
 	PHONE_DESC,
 	ADDRESS_ASC,
 	ADDRESS_DESC,
+	SALARY_ASC,
+	SALARY_DESC,
 }

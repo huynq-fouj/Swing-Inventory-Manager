@@ -1,5 +1,7 @@
 package Models.Objects;
 
+import Utilities.Utilities;
+
 public class EmployeeObject {
 
 	private int employee_id;
@@ -14,6 +16,7 @@ public class EmployeeObject {
 	private String employee_modified_date;
 	private double employee_debt;
 	private String employee_position;
+	private String employee_notes;
 
 	public int getEmployee_id() {
 		return employee_id;
@@ -42,6 +45,14 @@ public class EmployeeObject {
 	public double getEmployee_salary() {
 		return employee_salary;
 	}
+	
+	public String getEmployee_formatSalary() {
+		return Utilities.doubleFormat(employee_salary);
+	}
+	
+	public String getEmployee_formatSalary(String format) {
+		return Utilities.doubleFormat(employee_salary, format);
+	}
 
 	public int getAuthor_id() {
 		return author_id;
@@ -57,6 +68,14 @@ public class EmployeeObject {
 
 	public double getEmployee_debt() {
 		return employee_debt;
+	}
+	
+	public String getEmployee_formatDebt() {
+		return Utilities.doubleFormat(employee_debt);
+	}
+	
+	public String getEmployee_formatDebt(String format) {
+		return Utilities.doubleFormat(employee_debt, format);
 	}
 
 	public String getEmployee_position() {
@@ -109,6 +128,14 @@ public class EmployeeObject {
 
 	public void setEmployee_position(String employee_position) {
 		this.employee_position = employee_position;
+	}
+
+	public String getEmployee_notes() {
+		return employee_notes;
+	}
+
+	public void setEmployee_notes(String employee_notes) {
+		this.employee_notes = employee_notes;
 	}
 
 }

@@ -55,6 +55,7 @@ private Employee e;
 					item.setEmployee_modified_date(rs.getString("employee_modified_date"));
 					item.setEmployee_debt(rs.getDouble("employee_debt"));
 					item.setEmployee_position(Utilities.decode(rs.getString("employee_position")));
+					item.setEmployee_notes(Utilities.decode(rs.getString("employee_notes")));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -83,6 +84,7 @@ private Employee e;
 					item.setEmployee_modified_date(rs.getString("employee_modified_date"));
 					item.setEmployee_debt(rs.getDouble("employee_debt"));
 					item.setEmployee_position(Utilities.decode(rs.getString("employee_position")));
+					item.setEmployee_notes(Utilities.decode(rs.getString("employee_notes")));
 					items.add(item);
 				}
 			} catch (SQLException e) {
