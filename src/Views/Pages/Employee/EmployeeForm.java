@@ -298,7 +298,7 @@ public class EmployeeForm extends JFrame {
 		gbc.weightx = 1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridy = 0;
-		panel.add(this.createLabel("ID:"), gbc);
+		panel.add(this.createLabel("Mã nhân viên:"), gbc);
 		JTextField field = this.createTextField(this.employeeId + "");
 		field.setEnabled(false);
 		gbc.gridy = 1;
@@ -463,29 +463,30 @@ public class EmployeeForm extends JFrame {
 			if(cp == null) {
 				ConnectionContext.setCP(ec.getCP());
 			}
+			boolean check = false;
+			String successMessage = "";
+			String errMessage = "Có lỗi trong quá trình sử lý!";
 			//Create
 			if(this.isCreate()) {
-				if(ec.addEmployee(employee)) {
-					EmployeePage employeePage = new EmployeePage();
-					employeePage.setVisible(true);
-					Dialog.success(employeePage, "Thêm mới nhân viên thành công!");
-					this.dispose();
-				} else {
-					Dialog.error(this, "Thêm mới nhân viên không thành công!");
-				}
+				check = ec.addEmployee(employee);
+				successMessage = "Thêm nhân viên thành công!";
+				errMessage = "Thêm nhân viên không thành công!";
 			}
 			//Update
 			if(this.isUpdate()) {
-				if(ec.editEmployee(employee)) {
-					EmployeePage employeePage = new EmployeePage();
-					employeePage.setVisible(true);
-					Dialog.success(employeePage, "Cập nhật nhân viên thành công!");
-					this.dispose();
-				} else {
-					Dialog.error(this, "Cập nhật nhân viên không thành công!");
-				}
+				check = ec.editEmployee(employee);
+				successMessage = "Cập nhật nhân viên thành công!";
+				errMessage = "Cập nhật nhân viên không thành công!";
 			}
 			ec.releaseConnection();
+			if(check) {
+				EmployeePage employeePage = new EmployeePage();
+				employeePage.setVisible(true);
+				Dialog.success(employeePage, successMessage);
+				this.dispose();
+			} else {
+				Dialog.error(this, errMessage);
+			}
 		}
 	}
 	

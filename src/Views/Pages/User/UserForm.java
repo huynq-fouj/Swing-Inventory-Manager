@@ -281,7 +281,7 @@ public class UserForm extends JFrame {
 		gbc.weightx = 1;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridy = 0;
-		panel.add(this.createLabel("ID:"), gbc);
+		panel.add(this.createLabel("Mã người dùng:"), gbc);
 		JTextField field = this.createTextField(this.userId + "");
 		field.setEnabled(false);
 		gbc.gridy = 1;
@@ -385,30 +385,30 @@ public class UserForm extends JFrame {
 			if(cp == null) {
 				ConnectionContext.setCP(uc.getCP());
 			}
-			//Update
-			if(this.isUpdate()) {
-				if(uc.editUser(user)) {
-					UserPage userPage = new UserPage();
-					userPage.setVisible(true);
-					Dialog.success(userPage, "Cập nhật người dùng thành công!");
-					this.dispose();
-				} else {
-					Dialog.error(this, "Cập nhật người dùng không thành công!");
-				}
-			}
+			boolean check = false;
+			String successMessage = "";
+			String errMessage = "Có lỗi trong quá trình sử lý!";
 			//Create
 			if(this.isCreate()) {
-				user.setUser_password(new String(this.user_password.getPassword()).trim());
-				if(uc.addUser(user)) {
-					UserPage userPage = new UserPage();
-					userPage.setVisible(true);
-					Dialog.success(userPage, "Thêm người dùng thành công!");
-					this.dispose();
-				} else {
-					Dialog.error(this, "Thêm người dùng không thành công!");
-				}
+				check = uc.addUser(user);
+				successMessage = "Thêm người dùng thành công!";
+				errMessage = "Thêm người dùng không thành công!";
+			}
+			//Update
+			if(this.isUpdate()) {
+				check = uc.editUser(user);
+				successMessage = "Cập nhật người dùng thành công!";
+				errMessage = "Cập nhật người dùng không thành công!";
 			}
 			uc.releaseConnection();
+			if(check) {
+				UserPage userPage = new UserPage();
+				userPage.setVisible(true);
+				Dialog.success(userPage, successMessage);
+				this.dispose();
+			} else {
+				Dialog.error(this, errMessage);
+			}
 		}
 	}
 	

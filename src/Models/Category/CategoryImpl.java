@@ -31,7 +31,7 @@ public class CategoryImpl extends BasicImpl implements Category {
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO tblcategory(")
 		.append("category_name, category_notes, category_author_id,")
-		.append("category_created_date, category_modifined_date")
+		.append("category_created_date, category_modified_date")
 		.append(") VALUES(?,?,?,?,?);");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -40,7 +40,7 @@ public class CategoryImpl extends BasicImpl implements Category {
 			pre.setInt(3, item.getAuthor_id());
 			pre.setString(4, Utilities_date.getDate());
 			pre.setString(5, Utilities_date.getDate());
-			this.add(pre);
+			return this.add(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {
@@ -56,7 +56,7 @@ public class CategoryImpl extends BasicImpl implements Category {
 	public boolean editCategory(CategoryObject item) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("UPDATE tblcategory SET ")
-		.append("category_name=?, category_notes=?, category_modifined_date=? ")
+		.append("category_name=?, category_notes=?, category_modified_date=? ")
 		.append("WHERE category_id=?");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -64,7 +64,7 @@ public class CategoryImpl extends BasicImpl implements Category {
 			pre.setString(2, Utilities.encode(item.getCategory_notes()));
 			pre.setString(3, Utilities_date.getDate());
 			pre.setInt(4, item.getCategory_id());
-			this.edit(pre);
+			return this.edit(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			try {
