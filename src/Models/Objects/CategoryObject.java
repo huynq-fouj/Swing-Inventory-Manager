@@ -7,7 +7,7 @@ public class CategoryObject {
 	private int author_id;
 	private String category_created_date;
 	private String category_modified_date;
-
+	
 	public int getCategory_id() {
 		return category_id;
 	}
@@ -55,5 +55,12 @@ public class CategoryObject {
 	public void setCategory_modified_date(String category_modified_date) {
 		this.category_modified_date = category_modified_date;
 	}
+
+	@Override
+	public String toString() {
+		return this.category_name;
+	}
+	
+	
 
 }

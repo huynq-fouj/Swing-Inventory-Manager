@@ -1,5 +1,7 @@
 package Models.Objects;
 
+import Utilities.Utilities;
+
 public class ProductObject extends CategoryObject {
 	private int product_id;
 	private String product_name;
@@ -11,7 +13,7 @@ public class ProductObject extends CategoryObject {
 	private String product_created_date;
 	private String product_modified_date;
 	private String product_size;
-	private double product_promotion_price;
+	private String product_unit;
 	private double product_promotion;
 
 	public int getProduct_id() {
@@ -28,6 +30,14 @@ public class ProductObject extends CategoryObject {
 
 	public double getProduct_price() {
 		return product_price;
+	}
+	
+	public String getProduct_formatPrice() {
+		return Utilities.doubleFormat(product_price);
+	}
+	
+	public String getProduct_formatPrice(String format) {
+		return Utilities.doubleFormat(product_price, format);
 	}
 
 	public int getProduct_category_id() {
@@ -54,8 +64,8 @@ public class ProductObject extends CategoryObject {
 		return product_size;
 	}
 
-	public double getProduct_promotion_price() {
-		return product_promotion_price;
+	public String getProduct_unit() {
+		return product_unit;
 	}
 
 	public double getProduct_promotion() {
@@ -102,8 +112,8 @@ public class ProductObject extends CategoryObject {
 		this.product_size = product_size;
 	}
 
-	public void setProduct_promotion_price(double product_promotion_price) {
-		this.product_promotion_price = product_promotion_price;
+	public void setProduct_unit(String product_unit) {
+		this.product_unit = product_unit;
 	}
 
 	public void setProduct_promotion(double product_promotion) {

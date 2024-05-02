@@ -465,7 +465,7 @@ public class EmployeeForm extends JFrame {
 			}
 			boolean check = false;
 			String successMessage = "";
-			String errMessage = "Có lỗi trong quá trình sử lý!";
+			String errMessage = "Có lỗi trong quá trình xử lý!";
 			//Create
 			if(this.isCreate()) {
 				check = ec.addEmployee(employee);

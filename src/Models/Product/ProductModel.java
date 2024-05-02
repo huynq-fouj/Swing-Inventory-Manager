@@ -53,8 +53,10 @@ public class ProductModel {
 					item.setProduct_created_date(rs.getString("product_created_date"));
 					item.setProduct_modified_date(rs.getString("product_modified_date"));
 					item.setProduct_size(Utilities.decode(rs.getString("product_size")));
-					item.setProduct_promotion_price(rs.getDouble("product_promotion_price"));
+					item.setProduct_unit(Utilities.decode(rs.getString("product_unit")));
 					item.setProduct_promotion(rs.getDouble("product_promotion"));
+					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
+					item.setCategory_id(rs.getInt("category_id"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -81,7 +83,7 @@ public class ProductModel {
 					item.setProduct_created_date(rs.getString("product_created_date"));
 					item.setProduct_modified_date(rs.getString("product_modified_date"));
 					item.setProduct_size(Utilities.decode(rs.getString("product_size")));
-					item.setProduct_promotion_price(rs.getDouble("product_promotion_price"));
+					item.setProduct_unit(Utilities.decode(rs.getString("product_unit")));
 					item.setProduct_promotion(rs.getDouble("product_promotion"));
 					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
 					items.add(item);

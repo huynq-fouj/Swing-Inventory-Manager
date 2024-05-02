@@ -387,7 +387,7 @@ public class UserForm extends JFrame {
 			}
 			boolean check = false;
 			String successMessage = "";
-			String errMessage = "Có lỗi trong quá trình sử lý!";
+			String errMessage = "Có lỗi trong quá trình xử lý!";
 			//Create
 			if(this.isCreate()) {
 				check = uc.addUser(user);

@@ -33,7 +33,7 @@ public class ProductImpl extends BasicImpl implements Product {
 		.append("product_name, product_quantity, product_price,")
 		.append("product_category_id, product_author_id, product_details,")
 		.append("product_created_date, product_modified_date, product_size,")
-		.append("product_promotion_price, product_promotion")
+		.append("product_unit, product_promotion")
 		.append(") VALUES(?,?,?,?,?,?,?,?,?,?,?)");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -46,8 +46,8 @@ public class ProductImpl extends BasicImpl implements Product {
 			pre.setString(7, Utilities_date.getDate());
 			pre.setString(8, Utilities_date.getDate());
 			pre.setString(9, Utilities.encode(item.getProduct_size()));
-			pre.setDouble(10, 0);
-			pre.setDouble(11, 0);
+			pre.setString(10, Utilities.encode(item.getProduct_unit()));
+			pre.setDouble(11, item.getProduct_promotion());
 			return this.add(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,7 +85,7 @@ public class ProductImpl extends BasicImpl implements Product {
 		.append("product_name=?, product_quantity=?, product_price=?,")
 		.append("product_category_id=?, product_details=?,")
 		.append("product_modified_date=?, product_size=?,")
-		.append("product_promotion_price=?, product_promotion=? ")
+		.append("product_unit=?, product_promotion=? ")
 		.append("WHERE product_id=?");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -96,7 +96,7 @@ public class ProductImpl extends BasicImpl implements Product {
 			pre.setString(5, Utilities.encode(item.getProduct_details()));
 			pre.setString(6, Utilities_date.getDate());
 			pre.setString(7, Utilities.encode(item.getProduct_size()));
-			pre.setDouble(8, item.getProduct_promotion_price());
+			pre.setString(8, Utilities.encode(item.getProduct_unit()));
 			pre.setDouble(9, item.getProduct_promotion());
 			pre.setInt(10, item.getProduct_id());
 			return this.edit(pre);
@@ -113,7 +113,7 @@ public class ProductImpl extends BasicImpl implements Product {
 
 	@Override
 	public ResultSet getProduct(int id) {
-		String sql = "SELECT * FORM tblproduct WHERE product_id=?;";
+		String sql = "SELECT * FROM tblproduct WHERE product_id=?;";
 		return this.get(sql, id);
 	}
 
