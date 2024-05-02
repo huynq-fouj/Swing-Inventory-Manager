@@ -1,37 +1,35 @@
-### Demo
-#### Sign in
----
+## Demo
+### Sign in
 <div align="center">
 <img src="demo/login.png" width="200"/>
 </div>
 
-#### Home
----
+### Home
 <div align="center">
 <img src="demo/home.png" width="300"/>
 </div>
 
-#### User List
----
+### User List
 <div align="center">
 <img src="demo/users.png" width="300"/>
 </div>
 
-#### Update User
----
+### Update User
 <div align="center">
 <img src="demo/updateUser.png" width="300"/>
 </div>
 
-#### Personal Information
----
+### Personal Information
 <div align="center">
 <img src="demo/userAccount.png" width="300"/>
 </div>
 
-### Tech Stack
+## Tech Stack
+![](https://img.shields.io/badge/JAVA-00AFF0?style=for-the-badge&logo=openjdk)
+<br>
+![](https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
-### Get Start
+## Get Start
 - Restore database.
 - Change MySQL connection in `Databases.ConnectionPoolImpl`:
 ```java
