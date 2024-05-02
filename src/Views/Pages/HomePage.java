@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Components.SideBar;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
 import Databases.ConnectionPool;
@@ -28,6 +27,7 @@ import Shared.PageState;
 import Themes.Colors;
 import Utilities.ResourceUtil;
 import Utilities.Utilities_date;
+import Components.SideBar;
 
 public class HomePage extends JFrame {
 

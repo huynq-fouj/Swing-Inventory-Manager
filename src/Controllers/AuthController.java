@@ -1,6 +1,5 @@
 package Controllers;
 
-import Components.Dialog;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
 import Models.User.UserControl;
@@ -9,6 +8,7 @@ import Shared.ConnectionContext;
 import Views.Auth.SignInView;
 import Views.Auth.SignUpView;
 import Views.Pages.HomePage;
+import Components.Dialog;
 
 public class AuthController {
 

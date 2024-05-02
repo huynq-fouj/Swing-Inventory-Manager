@@ -17,8 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import Components.Dialog;
-import Components.SideBar;
 import Components.Borders.RoundedBorder;
 import Components.Borders.VerticalBorder;
 import Components.Buttons.Button;
@@ -31,6 +29,8 @@ import Shared.ConnectionContext;
 import Shared.PageState;
 import Themes.Colors;
 import Utilities.ResourceUtil;
+import Components.Dialog;
+import Components.SideBar;
 
 public class ProfilePage extends JFrame {
 

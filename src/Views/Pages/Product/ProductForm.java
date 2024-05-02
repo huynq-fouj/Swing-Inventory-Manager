@@ -18,7 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import Components.Dialog;
 import Components.Borders.RoundedBorder;
 import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
@@ -34,6 +33,7 @@ import Shared.ConnectionContext;
 import Shared.PageState;
 import Themes.Colors;
 import Utilities.Utilities_date;
+import Components.Dialog;
 
 public class ProductForm extends JFrame {
 
