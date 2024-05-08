@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -137,6 +139,11 @@ public class CategoryPage extends JFrame {
 		this.search = new JTextField();
 		this.search.setPreferredSize(new Dimension(200, 38));
 		this.search.setBorder(new RoundedBorder(13));
+		this.search.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				handleSearch();
+		    }
+		});
 		panel.add(this.search);
 		JButton btn = new Button("Tìm kiếm", ButtonType.SECONDARY);
 		btn.addActionListener(e -> {
