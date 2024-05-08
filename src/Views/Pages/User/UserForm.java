@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +23,10 @@ import Components.Buttons.Button;
 import Components.Buttons.ButtonType;
 import Databases.ConnectionPool;
 import Models.Objects.UserObject;
+import Models.Objects.UserRole;
 import Models.User.UserControl;
+import Models.User.UserRoleComboBoxModel;
+import Shared.AuthContext;
 import Shared.ConnectionContext;
 import Shared.PageState;
 import Themes.Colors;
@@ -44,6 +48,7 @@ public class UserForm extends JFrame {
 	private JTextField user_phone;
 	private JTextField user_address;
 	private JTextArea user_notes;
+	private JComboBox<UserRole> user_role;
 	
 	public UserForm() {
 		this(0, "create");
@@ -82,6 +87,7 @@ public class UserForm extends JFrame {
 				notes = "", email = "",
 				address = "", phone = "",
 				created_at = "", modified_at = "";
+		int role = 0;
 		if(this.isUpdate()) {
 			ConnectionPool cp = ConnectionContext.getCP();
 			UserControl uc = new UserControl(cp);
@@ -98,6 +104,7 @@ public class UserForm extends JFrame {
 			phone = user.getUser_phone();
 			created_at = user.getUser_created_at();
 			modified_at = user.getUser_modified_at();
+			role = user.getUser_role();
 		}
 		JPanel panel = this.createPanel();
 		panel.setLayout(new GridBagLayout());
@@ -110,7 +117,7 @@ public class UserForm extends JFrame {
 		panel.add(this.createTitle(), gbc);
 		gbc.gridwidth = 1;
 		gbc.gridy = 1;
-		if(this.isUpdate()) {
+		if(this.isUpdate() && (role == 5 || AuthContext.getUser().getUser_role() <= 3)) {
 			panel.add(this.UserIdField(), gbc);
 			gbc.gridx = 1;
 		}
@@ -119,8 +126,12 @@ public class UserForm extends JFrame {
 			gbc.gridx = 1;
 			panel.add(this.UserPasswordField(), gbc);
 		}
-		gbc.gridx = 2;
+		gbc.gridx = role != 5 && AuthContext.getUser().getUser_role() > 3 && !this.isCreate() ? 1 : 2;
 		panel.add(this.UserFullnameField(fullname), gbc);
+		if(this.isUpdate() && AuthContext.getUser().getUser_role() > 3 && role < 5) {
+			gbc.gridx = 2;
+			panel.add(this.UserRoleField(role), gbc);
+		}
 		gbc.gridy = 2;
 		gbc.gridx = 0;
 		panel.add(this.UserEmailField(email), gbc);
@@ -184,6 +195,21 @@ public class UserForm extends JFrame {
 		label.setFont(new Font("Tahoma", Font.BOLD, 24));
 		label.setBorder(new EmptyBorder(0, 15, 30, 0));
 		panel.add(label);
+		return panel;
+	}
+	
+	private JPanel UserIdField() {
+		JPanel panel = this.createPanelField();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		panel.add(this.createLabel("Mã người dùng:"), gbc);
+		JTextField field = this.createTextField(this.userId + "");
+		field.setEnabled(false);
+		gbc.gridy = 1;
+		panel.add(field, gbc);
 		return panel;
 	}
 	
@@ -274,21 +300,6 @@ public class UserForm extends JFrame {
 		return panel;
 	}
 	
-	private JPanel UserIdField() {
-		JPanel panel = this.createPanelField();
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.weightx = 1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridy = 0;
-		panel.add(this.createLabel("Mã người dùng:"), gbc);
-		JTextField field = this.createTextField(this.userId + "");
-		field.setEnabled(false);
-		gbc.gridy = 1;
-		panel.add(field, gbc);
-		return panel;
-	}
-	
 	private JPanel ShowDateField(String label, String content) {
 		JPanel panel = this.createPanelField();
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -323,6 +334,29 @@ public class UserForm extends JFrame {
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		gbc.gridy = 1;
 		panel.add(scroll, gbc);
+		return panel;
+	}
+	
+	private JPanel UserRoleField(int role) {
+		JPanel panel = this.createPanelField();
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.weightx = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridy = 0;
+		panel.add(this.createLabel("Cấp quyền:"), gbc);
+		UserRole[] items = UserRole.getRoleList();
+		this.user_role = new JComboBox<>(new UserRoleComboBoxModel(items));
+		this.user_role.setBorder(new RoundedBorder(13, 3));
+		this.user_role.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		this.user_role.setPreferredSize(new Dimension(275, 38));
+		this.user_role.setBackground(Colors.White);
+		UserRole item = null;
+		for(UserRole x: items) if(x.getRole() == role) item = x;
+		System.out.println(item);
+		this.user_role.setSelectedItem(item);
+		gbc.gridy = 1;
+		panel.add(this.user_role, gbc);
 		return panel;
 	}
 	
@@ -364,6 +398,8 @@ public class UserForm extends JFrame {
 		return panel;
 	}
 	
+	
+	
 	private void handleUpdateUser() {
 		if(this.checkValid()) {
 			String name = this.user_name.getText().trim();
@@ -380,6 +416,7 @@ public class UserForm extends JFrame {
 			user.setUser_phone(phone);
 			user.setUser_address(address);
 			user.setUser_notes(notes);
+			user.setUser_role(0);
 			ConnectionPool cp = ConnectionContext.getCP();
 			UserControl uc = new UserControl(cp);
 			if(cp == null) {
@@ -396,6 +433,8 @@ public class UserForm extends JFrame {
 			}
 			//Update
 			if(this.isUpdate()) {
+				int role = ((UserRole) this.user_role.getSelectedItem()).getRole();
+				user.setUser_role(role);
 				check = uc.editUser(user);
 				successMessage = "Cập nhật người dùng thành công!";
 				errMessage = "Cập nhật người dùng không thành công!";

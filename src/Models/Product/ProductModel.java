@@ -55,8 +55,6 @@ public class ProductModel {
 					item.setProduct_size(Utilities.decode(rs.getString("product_size")));
 					item.setProduct_unit(Utilities.decode(rs.getString("product_unit")));
 					item.setProduct_promotion(rs.getDouble("product_promotion"));
-					item.setCategory_name(Utilities.decode(rs.getString("category_name")));
-					item.setCategory_id(rs.getInt("category_id"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

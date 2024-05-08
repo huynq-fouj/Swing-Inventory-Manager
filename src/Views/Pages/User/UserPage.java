@@ -53,6 +53,7 @@ public class UserPage extends JFrame {
 	public UserPage() {
 		PageState.page = "user";
 		this.similar = new UserObject();
+		this.similar.setUser_role(AuthContext.getUser().getUser_role());
 		this.sortType = UserSortType.ID_DESC;
 		this.sorted = false;
 		this.initUI();
@@ -146,15 +147,20 @@ public class UserPage extends JFrame {
 			this.handleSearch();
 		});
 		panel.add(btn);
+		JButton addBtn = new Button("Thêm mới", ButtonType.PRIMARY);
+		addBtn.addActionListener(e -> {
+			this.handleAddUser();
+		});
+		panel.add(addBtn);
 		return panel;
 	}
 	
 	private JPanel GroupButton() {
 		JPanel panel = this.createPanelField();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton addBtn = new Button("Thêm mới", ButtonType.PRIMARY);
+		JButton addBtn = new Button("Xem thông tin", ButtonType.PRIMARY);
 		addBtn.addActionListener(e -> {
-			this.handleAddUser();
+			this.handleUpdateUser();
 		});
 		panel.add(addBtn);
 		JButton editBtn = new Button("Cập nhật", ButtonType.SUCCESS);

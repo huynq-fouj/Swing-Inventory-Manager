@@ -133,6 +133,11 @@ public class EmployeePage extends JFrame {
 			this.handleSearch();
 		});
 		panel.add(btn);
+		JButton addBtn = new Button("Thêm mới", ButtonType.PRIMARY);
+		addBtn.addActionListener(e -> {
+			this.handleAddEmployee();
+		});
+		panel.add(addBtn);
 		return panel;
 	}
 	
@@ -149,11 +154,11 @@ public class EmployeePage extends JFrame {
 	private JPanel GroupButton() {
 		JPanel panel = this.createPanelField();
 		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton addBtn = new Button("Thêm mới", ButtonType.PRIMARY);
-		addBtn.addActionListener(e -> {
-			this.handleAddEmployee();
+		JButton infoBtn = new Button("Xem thông tin", ButtonType.PRIMARY);
+		infoBtn.addActionListener(e -> {
+			this.handleUpdateEmployee();
 		});
-		panel.add(addBtn);
+		panel.add(infoBtn);
 		JButton editBtn = new Button("Cập nhật", ButtonType.SUCCESS);
 		editBtn.addActionListener(e -> {
 			this.handleUpdateEmployee();

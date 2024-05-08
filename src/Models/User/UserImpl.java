@@ -86,7 +86,7 @@ public class UserImpl extends BasicImpl implements User {
 		StringBuilder sql = new StringBuilder();
 		sql.append("UPDATE tbluser SET ");
 		sql.append("user_fullname=?, user_email=?, user_phone=?, ");
-		sql.append("user_modified_at=?, user_notes=?, user_address=? ");
+		sql.append("user_modified_at=?, user_notes=?, user_address=?, user_role=? ");
 		sql.append("WHERE user_id=? ");
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
@@ -96,7 +96,8 @@ public class UserImpl extends BasicImpl implements User {
 			pre.setString(4, Utilities_date.getDate());
 			pre.setString(5, Utilities.encode(item.getUser_notes()));
 			pre.setString(6, Utilities.encode(item.getUser_address()));
-			pre.setInt(7, item.getUser_id());
+			pre.setInt(7, item.getUser_role());
+			pre.setInt(8, item.getUser_id());
 			return this.edit(pre);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -146,12 +147,14 @@ public class UserImpl extends BasicImpl implements User {
 	private String createConditions(UserObject similar) {
 		StringBuilder conds = new StringBuilder();
 		if(similar != null) {
+			conds.append(" user_role < ").append(similar.getUser_role()).append(" ");
+			
 			String key = similar.getUser_name();
 			if(key != null && !key.equalsIgnoreCase("")) {
 				key = Utilities.encode(key);
-				conds.append(" (user_name LIKE '%"+key+"%') OR ");
+				conds.append(" AND ((user_name LIKE '%"+key+"%') OR ");
 				conds.append(" (user_fullname LIKE '%"+key+"%') OR ");
-				conds.append(" (user_email LIKE '%"+key+"%') ");
+				conds.append(" (user_email LIKE '%"+key+"%')) ");
 			}
 		}
 		

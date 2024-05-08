@@ -60,7 +60,7 @@ public class SideBar extends JPanel {
 		gbc.gridy = 6;
 		this.add(this.BtnEmployee(), gbc);
 		gbc.gridy = 7;
-		if(AuthContext.getUser().getUser_role() >= 5) {
+		if(AuthContext.getUser().getUser_role() >= 3) {
 			this.add(this.createEmptyPanel(), gbc);
 			gbc.gridy = 8;
 			this.add(this.BtnUser(), gbc);

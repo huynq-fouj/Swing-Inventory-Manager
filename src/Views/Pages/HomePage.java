@@ -82,7 +82,7 @@ private JPanel contentPane;
 		panel.add(this.EmployeeCard(user, cp), gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		if(user.getUser_role() >= 5) {	
+		if(user.getUser_role() >= 3) {	
 			panel.add(this.UserCard(user, cp), gbc);
 			gbc.gridy = 3;
 		}
